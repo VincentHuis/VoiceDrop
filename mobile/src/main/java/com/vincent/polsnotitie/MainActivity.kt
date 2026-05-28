@@ -57,6 +57,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
@@ -64,6 +65,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberSwipeToDismissBoxState
+import com.google.android.gms.wearable.DataClient
+import com.google.android.gms.wearable.PutDataMapRequest
+import com.google.android.gms.wearable.Wearable
+import com.vincent.polsnotitie.language.AppLanguage
+import com.vincent.polsnotitie.language.LanguagePreference
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -696,6 +702,11 @@ private fun pickDateTime(context: Context, onPicked: (Long) -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(onBack: () -> Unit, onOpenPlaces: () -> Unit) {
+    val context = LocalContext.current
+    val prefs = remember { context.getSharedPreferences("app_settings", Context.MODE_PRIVATE) }
+    var selectedLang by remember { mutableStateOf(LanguagePreference.get(prefs)) }
+    val dataClient = remember { Wearable.getDataClient(context) }
+
     BackHandler(onBack = onBack)
     Scaffold(
         topBar = {
@@ -703,7 +714,8 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPlaces: () -> Unit) {
                 title = { Text(stringResource(R.string.settings_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back_label))
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.back_label))
                     }
                 }
             )
@@ -716,6 +728,43 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPlaces: () -> Unit) {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            // Language card
+            Card(modifier = Modifier.fillMaxWidth()) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        stringResource(R.string.language_title),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    AppLanguage.entries.forEach { lang ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    selectedLang = lang
+                                    LanguagePreference.set(prefs, lang)
+                                    syncLanguageToWatch(dataClient, lang)
+                                    (context as? android.app.Activity)?.recreate()
+                                }
+                                .padding(vertical = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = selectedLang == lang,
+                                onClick = {
+                                    selectedLang = lang
+                                    LanguagePreference.set(prefs, lang)
+                                    syncLanguageToWatch(dataClient, lang)
+                                    (context as? android.app.Activity)?.recreate()
+                                }
+                            )
+                            Text(lang.displayName, modifier = Modifier.padding(start = 8.dp))
+                        }
+                    }
+                }
+            }
+
+            // Locations card (unchanged)
             Card(modifier = Modifier
                 .fillMaxWidth()
                 .clickable { onOpenPlaces() }) {
@@ -725,23 +774,26 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPlaces: () -> Unit) {
                         .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        Icons.Filled.Place,
-                        contentDescription = null,
-                        modifier = Modifier.padding(end = 12.dp)
-                    )
+                    Icon(Icons.Filled.Place, contentDescription = null,
+                        modifier = Modifier.padding(end = 12.dp))
                     Column(modifier = Modifier.weight(1f)) {
-                        Text(stringResource(R.string.locations_title), style = MaterialTheme.typography.titleMedium)
-                        Text(
-                            stringResource(R.string.locations_subtitle),
+                        Text(stringResource(R.string.locations_title),
+                            style = MaterialTheme.typography.titleMedium)
+                        Text(stringResource(R.string.locations_subtitle),
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                            color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
             }
         }
     }
+}
+
+private fun syncLanguageToWatch(dataClient: DataClient, lang: AppLanguage) {
+    val request = PutDataMapRequest.create("/settings/language").apply {
+        dataMap.putString("language", lang.code)
+    }.asPutDataRequest().setUrgent()
+    dataClient.putDataItem(request)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
