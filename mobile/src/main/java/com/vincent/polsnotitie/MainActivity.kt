@@ -70,7 +70,6 @@ import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.Wearable
 import com.vincent.polsnotitie.language.AppLanguage
 import com.vincent.polsnotitie.language.LanguagePreference
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -148,18 +147,19 @@ private fun PlaceType.displayName(context: Context): String = context.getString(
 )
 
 class MainActivity : ComponentActivity() {
+    override fun attachBaseContext(newBase: Context) {
+        val prefs = newBase.getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+        super.attachBaseContext(newBase.withAppLanguage(prefs))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val prefs = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
-        val localizedCtx = this.withAppLanguage(prefs)
         val startInShopping = intent?.getBooleanExtra("openShopping", false) == true
         val timeForMemo = intent?.getStringExtra("setTimeForMemo")
         setContent {
-            CompositionLocalProvider(LocalContext provides localizedCtx) {
-                PolsnotitieTheme {
-                    AppRoot(startInShopping = startInShopping, startTimeForMemoId = timeForMemo)
-                }
+            PolsnotitieTheme {
+                AppRoot(startInShopping = startInShopping, startTimeForMemoId = timeForMemo)
             }
         }
     }
