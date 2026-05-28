@@ -5,6 +5,7 @@ import com.vincent.polsnotitie.calendar.CalendarHelper
 import com.vincent.polsnotitie.data.Category
 import com.vincent.polsnotitie.data.CategoryClassifier
 import com.vincent.polsnotitie.data.Memo
+import com.vincent.polsnotitie.language.configs.NlLanguageConfig
 import com.vincent.polsnotitie.data.MemoDatabase
 import com.vincent.polsnotitie.location.GeofenceManager
 import com.vincent.polsnotitie.reminder.PlaceParser
@@ -22,7 +23,7 @@ object MemoProcessor {
 
     suspend fun process(context: Context, id: String, rawText: String, timestamp: Long) {
         val dao = MemoDatabase.get(context).memoDao()
-        val classified = CategoryClassifier.classify(rawText)
+        val classified = CategoryClassifier(NlLanguageConfig).classify(rawText)
 
         if (classified.category == Category.AGENDA) {
             handleAgenda(context, classified.text)

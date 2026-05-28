@@ -1,16 +1,12 @@
 package com.vincent.polsnotitie.data
 
-/**
- * Bepaalt de categorie van een memo op basis van het eerste woord (of de eerste twee woorden,
- * voor "to do"). Gebruikt genormaliseerde Levenshtein-gelijkenis zodat versprekingen en
- * spellingsvarianten ("herinnering", "herinneringen", "herinner") toch matchen. Het herkende
- * trefwoord wordt uit de tekst verwijderd.
- */
-object CategoryClassifier {
+import com.vincent.polsnotitie.language.LanguageConfig
+
+class CategoryClassifier(private val config: LanguageConfig) {
 
     data class Result(val category: Category, val text: String)
 
-    private const val THRESHOLD = 0.7
+    private val THRESHOLD = 0.7
 
     fun classify(raw: String): Result {
         val trimmed = raw.trim()
@@ -25,18 +21,15 @@ object CategoryClassifier {
         var bestScore = 0.0
 
         for (category in Category.entries) {
-            if (category.keywords.isEmpty()) continue
-            for (keyword in category.keywords) {
+            val keywords = config.categoryKeywords[category] ?: continue
+            if (keywords.isEmpty()) continue
+            for (keyword in keywords) {
                 score(first, keyword)?.let { s ->
-                    if (s > bestScore) {
-                        bestScore = s; bestCategory = category; bestConsumed = 1
-                    }
+                    if (s > bestScore) { bestScore = s; bestCategory = category; bestConsumed = 1 }
                 }
                 if (firstTwo != null) {
                     score(firstTwo, keyword)?.let { s ->
-                        if (s > bestScore) {
-                            bestScore = s; bestCategory = category; bestConsumed = 2
-                        }
+                        if (s > bestScore) { bestScore = s; bestCategory = category; bestConsumed = 2 }
                     }
                 }
             }
