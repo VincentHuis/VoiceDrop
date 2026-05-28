@@ -2,11 +2,41 @@ package com.vincent.polsnotitie.data
 
 import com.vincent.polsnotitie.language.LanguageConfig
 
-class CategoryClassifier(private val config: LanguageConfig) {
+class CategoryClassifier(@Suppress("UNUSED_PARAMETER") config: LanguageConfig) {
 
     data class Result(val category: Category, val text: String)
 
     private val THRESHOLD = 0.7
+
+    // Keywords from all supported languages — classification works regardless of app language
+    private val keywords: Map<Category, List<String>> = mapOf(
+        Category.BOODSCHAPPEN  to listOf(
+            "boodschappen", "boodschap", "winkel", "supermarkt",
+            "einkaufen", "einkauf", "lebensmittel",
+            "groceries", "grocery", "shopping", "supermarket"
+        ),
+        Category.IDEEEN        to listOf(
+            "idee", "ideeen", "ideetje", "ideetjes",
+            "ideen",
+            "idea", "ideas"
+        ),
+        Category.TODO          to listOf(
+            "todo", "to do", "to-do", "taak", "taken",
+            "aufgabe", "aufgaben",
+            "task", "tasks"
+        ),
+        Category.HERINNERINGEN to listOf(
+            "herinnering", "herinneringen", "herinner",
+            "erinnerung", "erinnerungen", "erinnere",
+            "reminder", "reminders", "remind"
+        ),
+        Category.AGENDA        to listOf(
+            "agenda", "afspraak", "kalender",
+            "termin",
+            "appointment", "calendar"
+        ),
+        Category.OVERIG        to emptyList()
+    )
 
     fun classify(raw: String): Result {
         val trimmed = raw.trim()
@@ -21,9 +51,9 @@ class CategoryClassifier(private val config: LanguageConfig) {
         var bestScore = 0.0
 
         for (category in Category.entries) {
-            val keywords = config.categoryKeywords[category] ?: continue
-            if (keywords.isEmpty()) continue
-            for (keyword in keywords) {
+            val kws = keywords[category] ?: continue
+            if (kws.isEmpty()) continue
+            for (keyword in kws) {
                 score(first, keyword)?.let { s ->
                     if (s > bestScore) { bestScore = s; bestCategory = category; bestConsumed = 1 }
                 }
