@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VoiceDrop</string>
+    <string name="tile_label">Record</string>
+    <string name="tap_to_record">Tap to record</string>
+    <string name="sending">Sending…</string>
+    <string name="sent">Sent ✓</string>
+    <string name="nothing_heard">Nothing heard, retry?</string>
+    <string name="send_failed">Send failed, retry?</string>
+    <string name="not_available">Speech recognition not available</string>
+    <string name="record_button">Record</string>
+    <string name="speech_prompt">Speak your note</string>
+</resources>
