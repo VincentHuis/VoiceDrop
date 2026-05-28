@@ -12,7 +12,7 @@ object DeLanguageConfig : LanguageConfig {
     override val language = AppLanguage.GERMAN
 
     private val numberWords = mapOf(
-        "ein" to 1, "eins" to 1, "eine" to 1, "zwei" to 2, "drei" to 3, "vier" to 4,
+        "ein" to 1, "eins" to 1, "eine" to 1, "einer" to 1, "zwei" to 2, "drei" to 3, "vier" to 4,
         "fünf" to 5, "sechs" to 6, "sieben" to 7, "acht" to 8, "neun" to 9,
         "zehn" to 10, "elf" to 11, "zwölf" to 12
     )

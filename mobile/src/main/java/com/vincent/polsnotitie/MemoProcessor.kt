@@ -39,7 +39,7 @@ object MemoProcessor {
                 placeId = placeResult.place.name
                 text = placeResult.text
             } else {
-                val parsed = ReminderTimeParser.parse(text)
+                val parsed = ReminderTimeParser(NlLanguageConfig).parse(text)
                 text = parsed.text.ifEmpty { text }
                 remindAt = parsed.remindAt
             }
@@ -66,7 +66,7 @@ object MemoProcessor {
     }
 
     private fun handleAgenda(context: Context, rawText: String) {
-        val parsed = ReminderTimeParser.parse(rawText)
+        val parsed = ReminderTimeParser(NlLanguageConfig).parse(rawText)
         val title = parsed.text.ifEmpty { rawText }
         val start = parsed.remindAt
         if (start != null && CalendarHelper.insertEvent(context, title, start)) {
