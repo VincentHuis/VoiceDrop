@@ -25,8 +25,7 @@ class MemoListenerService : WearableListenerService() {
             val id = map.getString("id") ?: continue
 
             runBlocking {
-                MemoProcessor.process(
-                    context = this@MemoListenerService,
+                MemoProcessor(this@MemoListenerService).process(
                     id = id,
                     rawText = map.getString("text").orEmpty(),
                     timestamp = map.getLong("timestamp")

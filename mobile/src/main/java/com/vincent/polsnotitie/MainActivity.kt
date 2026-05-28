@@ -44,6 +44,7 @@ import androidx.compose.material.icons.filled.MyLocation
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.PushPin
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -209,8 +210,8 @@ fun MemoListScreen(
                 ?.trim()
             if (!spoken.isNullOrEmpty()) {
                 scope.launch(Dispatchers.IO) {
-                    MemoProcessor.process(
-                        context, UUID.randomUUID().toString(), spoken, System.currentTimeMillis()
+                    MemoProcessor(context).process(
+                        UUID.randomUUID().toString(), spoken, System.currentTimeMillis()
                     )
                 }
             }
@@ -301,6 +302,11 @@ fun MemoListScreen(
                         SwipeableMemoItem(
                             memo = memo,
                             onDelete = { scope.launch { dao.delete(memo) } },
+                            onPin = {
+                                scope.launch {
+                                    dao.setPinned(memo.id, if (memo.pinnedAt == null) System.currentTimeMillis() else null)
+                                }
+                            },
                             onSetTime = onSetTime
                         )
                     }
@@ -312,7 +318,7 @@ fun MemoListScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SwipeableMemoItem(memo: Memo, onDelete: () -> Unit, onSetTime: (String) -> Unit) {
+private fun SwipeableMemoItem(memo: Memo, onDelete: () -> Unit, onPin: () -> Unit, onSetTime: (String) -> Unit) {
     val dismissState = rememberSwipeToDismissBoxState(
         confirmValueChange = { value ->
             if (value != SwipeToDismissBoxValue.Settled) {
@@ -341,18 +347,20 @@ private fun SwipeableMemoItem(memo: Memo, onDelete: () -> Unit, onSetTime: (Stri
             }
         }
     ) {
-        MemoCard(memo = memo, onSetTime = onSetTime)
+        MemoCard(memo = memo, onPin = onPin, onSetTime = onSetTime)
     }
 }
 
 @Composable
-private fun MemoCard(memo: Memo, onSetTime: (String) -> Unit) {
+private fun MemoCard(memo: Memo, onPin: () -> Unit, onSetTime: (String) -> Unit) {
     val context = LocalContext.current
     val category = Category.fromName(memo.category)
+    val pinned = memo.pinnedAt != null
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = if (pinned) MaterialTheme.colorScheme.primaryContainer
+                            else MaterialTheme.colorScheme.surfaceVariant
         )
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -418,6 +426,14 @@ private fun MemoCard(memo: Memo, onSetTime: (String) -> Unit) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.weight(1f)
                 )
+                IconButton(onClick = onPin) {
+                    Icon(
+                        Icons.Filled.PushPin,
+                        contentDescription = if (pinned) "Losmaken" else "Vastpinnen",
+                        tint = if (pinned) MaterialTheme.colorScheme.primary
+                               else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
                 IconButton(onClick = { copyToClipboard(context, memo.text) }) {
                     Icon(Icons.Filled.ContentCopy, contentDescription = "Kopiëren")
                 }
