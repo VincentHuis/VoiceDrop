@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VoiceDrop</string>
+    <string name="shopping_label">Einkaufen</string>
+    <string name="settings_label">Einstellungen</string>
+    <string name="no_notes">Noch keine Notizen</string>
+    <string name="no_results">Keine Ergebnisse</string>
+    <string name="search_hint">Suchen…</string>
+    <string name="record_label">Aufnehmen</string>
+    <string name="speech_prompt">Notiz einsprechen</string>
+    <string name="delete_label">Löschen</string>
+    <string name="copy_label">Kopieren</string>
+    <string name="share_label">Teilen</string>
+    <string name="reminder_prefix">Erinnerung: %s</string>
+    <string name="add_time">Zeit hinzufügen</string>
+    <string name="at_place">Bei %s</string>
+    <string name="settings_title">Einstellungen</string>
+    <string name="language_title">Sprache</string>
+    <string name="locations_title">Standorte</string>
+    <string name="locations_subtitle">Zuhause, Arbeit und Supermarkt einrichten</string>
+    <string name="places_title">Orte</string>
+    <string name="back_label">Zurück</string>
+    <string name="place_set">Eingestellt</string>
+    <string name="place_not_set">Nicht eingestellt</string>
+    <string name="allow_location">Standort immer erlauben</string>
+    <string name="pick_place">%s auswählen</string>
+    <string name="current_location">Aktueller Standort</string>
+    <string name="address_hint">Adresse suchen…</string>
+    <string name="address_not_found">Adresse nicht gefunden</string>
+    <string name="save_location">Speichern</string>
+    <string name="category_groceries">Lebensmittel</string>
+    <string name="category_todo">Aufgabe</string>
+    <string name="category_ideas">Ideen</string>
+    <string name="category_reminders">Erinnerungen</string>
+    <string name="category_agenda">Termin</string>
+    <string name="category_other">Sonstiges</string>
+    <string name="place_home">Zuhause</string>
+    <string name="place_work">Arbeit</string>
+    <string name="place_supermarket">Supermarkt</string>
+</resources>

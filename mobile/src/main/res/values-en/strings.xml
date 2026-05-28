@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VoiceDrop</string>
+    <string name="shopping_label">Groceries</string>
+    <string name="settings_label">Settings</string>
+    <string name="no_notes">No notes yet</string>
+    <string name="no_results">No results</string>
+    <string name="search_hint">Search…</string>
+    <string name="record_label">Record</string>
+    <string name="speech_prompt">Speak your note</string>
+    <string name="delete_label">Delete</string>
+    <string name="copy_label">Copy</string>
+    <string name="share_label">Share</string>
+    <string name="reminder_prefix">Reminder: %s</string>
+    <string name="add_time">Add time</string>
+    <string name="at_place">At %s</string>
+    <string name="settings_title">Settings</string>
+    <string name="language_title">Language</string>
+    <string name="locations_title">Locations</string>
+    <string name="locations_subtitle">Set up home, work and supermarket</string>
+    <string name="places_title">Places</string>
+    <string name="back_label">Back</string>
+    <string name="place_set">Set</string>
+    <string name="place_not_set">Not set</string>
+    <string name="allow_location">Always allow location</string>
+    <string name="pick_place">Choose %s</string>
+    <string name="current_location">Current location</string>
+    <string name="address_hint">Search address…</string>
+    <string name="address_not_found">Address not found</string>
+    <string name="save_location">Save</string>
+    <string name="category_groceries">Groceries</string>
+    <string name="category_todo">To-do</string>
+    <string name="category_ideas">Ideas</string>
+    <string name="category_reminders">Reminders</string>
+    <string name="category_agenda">Agenda</string>
+    <string name="category_other">Other</string>
+    <string name="place_home">Home</string>
+    <string name="place_work">Work</string>
+    <string name="place_supermarket">Supermarket</string>
+</resources>

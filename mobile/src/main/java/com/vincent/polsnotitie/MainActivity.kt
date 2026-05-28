@@ -81,6 +81,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
@@ -242,7 +243,7 @@ fun MemoListScreen(
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
             putExtra(RecognizerIntent.EXTRA_LANGUAGE, "nl-NL")
-            putExtra(RecognizerIntent.EXTRA_PROMPT, "Spreek je notitie in")
+            putExtra(RecognizerIntent.EXTRA_PROMPT, context.getString(R.string.speech_prompt))
         }
         try {
             micLauncher.launch(intent)
@@ -260,7 +261,7 @@ fun MemoListScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("VoiceDrop") },
+                title = { Text(stringResource(R.string.app_name)) },
                 actions = {
                     TextButton(onClick = onOpenShopping) {
                         Icon(
@@ -268,10 +269,10 @@ fun MemoListScreen(
                             contentDescription = null,
                             modifier = Modifier.padding(end = 4.dp)
                         )
-                        Text("Boodschappen")
+                        Text(stringResource(R.string.shopping_label))
                     }
                     IconButton(onClick = onOpenSettings) {
-                        Icon(Icons.Filled.Settings, contentDescription = "Instellingen")
+                        Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.settings_label))
                     }
                 }
             )
@@ -294,17 +295,17 @@ fun MemoListScreen(
                     modifier = Modifier.weight(1f),
                     singleLine = true,
                     leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
-                    placeholder = { Text("Zoeken…") }
+                    placeholder = { Text(stringResource(R.string.search_hint)) }
                 )
                 IconButton(onClick = { startMic() }) {
-                    Icon(Icons.Filled.Mic, contentDescription = "Inspreken")
+                    Icon(Icons.Filled.Mic, contentDescription = stringResource(R.string.record_label))
                 }
             }
 
             if (memos.isEmpty()) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(
-                        text = if (query.isBlank()) "Nog geen notities" else "Geen resultaten",
+                        text = if (query.isBlank()) stringResource(R.string.no_notes) else stringResource(R.string.no_results),
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -361,7 +362,7 @@ private fun SwipeableMemoItem(memo: Memo, onDelete: () -> Unit, onPin: () -> Uni
             ) {
                 Icon(
                     Icons.Filled.Delete,
-                    contentDescription = "Verwijderen",
+                    contentDescription = stringResource(R.string.delete_label),
                     tint = Color.White
                 )
             }
@@ -406,7 +407,7 @@ private fun MemoCard(memo: Memo, onPin: () -> Unit, onSetTime: (String) -> Unit)
                             tint = MaterialTheme.colorScheme.primary
                         )
                         Text(
-                            text = "Bij ${place.displayName(context)}",
+                            text = stringResource(R.string.at_place, place.displayName(context)),
                             style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.primary
                         )
@@ -426,8 +427,8 @@ private fun MemoCard(memo: Memo, onPin: () -> Unit, onSetTime: (String) -> Unit)
                             tint = MaterialTheme.colorScheme.primary
                         )
                         Text(
-                            text = memo.remindAt?.let { "Herinnering: ${formatTimestamp(it)}" }
-                                ?: "Tijd toevoegen",
+                            text = memo.remindAt?.let { stringResource(R.string.reminder_prefix, formatTimestamp(it)) }
+                                ?: stringResource(R.string.add_time),
                             style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.primary
                         )
@@ -455,10 +456,10 @@ private fun MemoCard(memo: Memo, onPin: () -> Unit, onSetTime: (String) -> Unit)
                     )
                 }
                 IconButton(onClick = { copyToClipboard(context, memo.text) }) {
-                    Icon(Icons.Filled.ContentCopy, contentDescription = "Kopiëren")
+                    Icon(Icons.Filled.ContentCopy, contentDescription = stringResource(R.string.copy_label))
                 }
                 IconButton(onClick = { shareText(context, memo.text) }) {
-                    Icon(Icons.Filled.Share, contentDescription = "Delen")
+                    Icon(Icons.Filled.Share, contentDescription = stringResource(R.string.share_label))
                 }
             }
         }
@@ -491,10 +492,10 @@ fun ShoppingScreen(onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Boodschappen") },
+                title = { Text(stringResource(R.string.shopping_label)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Terug")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back_label))
                     }
                 }
             )
@@ -690,10 +691,10 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPlaces: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Instellingen") },
+                title = { Text(stringResource(R.string.settings_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Terug")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back_label))
                     }
                 }
             )
@@ -721,9 +722,9 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPlaces: () -> Unit) {
                         modifier = Modifier.padding(end = 12.dp)
                     )
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("Locaties", style = MaterialTheme.typography.titleMedium)
+                        Text(stringResource(R.string.locations_title), style = MaterialTheme.typography.titleMedium)
                         Text(
-                            "Thuis, werk en supermarkt instellen",
+                            stringResource(R.string.locations_subtitle),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -750,10 +751,10 @@ fun PlacesScreen(onBack: () -> Unit, onPick: (PlaceType) -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Plekken") },
+                title = { Text(stringResource(R.string.places_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Terug")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back_label))
                     }
                 }
             )
@@ -776,7 +777,7 @@ fun PlacesScreen(onBack: () -> Unit, onPick: (PlaceType) -> Unit) {
                 Button(onClick = {
                     bgLauncher.launch(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION)
                 }) {
-                    Text("Locatie altijd toestaan")
+                    Text(stringResource(R.string.allow_location))
                 }
             }
             for (type in PlaceType.entries) {
@@ -799,7 +800,7 @@ fun PlacesScreen(onBack: () -> Unit, onPick: (PlaceType) -> Unit) {
                             Text(type.displayName(context), style = MaterialTheme.typography.titleMedium)
                             Text(
                                 text = saved?.address
-                                    ?: if (saved != null) "Ingesteld" else "Niet ingesteld",
+                                    ?: if (saved != null) stringResource(R.string.place_set) else stringResource(R.string.place_not_set),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -888,15 +889,15 @@ fun MapPickerScreen(type: PlaceType, onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Kies ${type.displayName(context)}") },
+                title = { Text(stringResource(R.string.pick_place, type.displayName(context))) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Terug")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back_label))
                     }
                 },
                 actions = {
                     IconButton(onClick = { goToCurrentLocation() }) {
-                        Icon(Icons.Filled.MyLocation, contentDescription = "Huidige locatie")
+                        Icon(Icons.Filled.MyLocation, contentDescription = stringResource(R.string.current_location))
                     }
                 }
             )
@@ -917,7 +918,7 @@ fun MapPickerScreen(type: PlaceType, onBack: () -> Unit) {
                 placeholder = { Text("Example: Herestraat, Groningen, The Netherlands") },
                 isError = searchError,
                 supportingText = if (searchError) {
-                    { Text("Adres niet gevonden") }
+                    { Text(stringResource(R.string.address_not_found)) }
                 } else null,
                 trailingIcon = {
                     IconButton(onClick = { searchAddress() }) {
@@ -982,7 +983,7 @@ fun MapPickerScreen(type: PlaceType, onBack: () -> Unit) {
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                Text("Opslaan")
+                Text(stringResource(R.string.save_location))
             }
         }
     }

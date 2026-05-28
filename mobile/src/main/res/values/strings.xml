@@ -1,3 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">VoiceDrop</string>
+
+    <!-- Main screen -->
+    <string name="shopping_label">Boodschappen</string>
+    <string name="settings_label">Instellingen</string>
+    <string name="no_notes">Nog geen notities</string>
+    <string name="no_results">Geen resultaten</string>
+    <string name="search_hint">Zoeken…</string>
+    <string name="record_label">Inspreken</string>
+    <string name="speech_prompt">Spreek je notitie in</string>
+    <string name="delete_label">Verwijderen</string>
+    <string name="copy_label">Kopiëren</string>
+    <string name="share_label">Delen</string>
+    <string name="reminder_prefix">Herinnering: %s</string>
+    <string name="add_time">Tijd toevoegen</string>
+    <string name="at_place">Bij %s</string>
+
+    <!-- Settings screen -->
+    <string name="settings_title">Instellingen</string>
+    <string name="language_title">Taal</string>
+    <string name="locations_title">Locaties</string>
+    <string name="locations_subtitle">Thuis, werk en supermarkt instellen</string>
+
+    <!-- Places screen -->
+    <string name="places_title">Plekken</string>
+    <string name="back_label">Terug</string>
+    <string name="place_set">Ingesteld</string>
+    <string name="place_not_set">Niet ingesteld</string>
+    <string name="allow_location">Locatie altijd toestaan</string>
+
+    <!-- Map picker screen -->
+    <string name="pick_place">Kies %s</string>
+    <string name="current_location">Huidige locatie</string>
+    <string name="address_hint">Adres zoeken…</string>
+    <string name="address_not_found">Adres niet gevonden</string>
+    <string name="save_location">Opslaan</string>
+
+    <!-- Category names -->
+    <string name="category_groceries">Boodschappen</string>
+    <string name="category_todo">To-do</string>
+    <string name="category_ideas">Ideeën</string>
+    <string name="category_reminders">Herinneringen</string>
+    <string name="category_agenda">Agenda</string>
+    <string name="category_other">Overig</string>
+
+    <!-- Place type names -->
+    <string name="place_home">Thuis</string>
+    <string name="place_work">Werk</string>
+    <string name="place_supermarket">Supermarkt</string>
 </resources>
