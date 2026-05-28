@@ -2,7 +2,10 @@ package com.vincent.polsnotitie.presentation
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
+import android.net.Uri
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import androidx.activity.ComponentActivity
@@ -15,6 +18,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -24,12 +28,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
+import com.google.android.gms.tasks.Tasks
+import com.google.android.gms.wearable.DataMapItem
+import com.google.android.gms.wearable.Wearable
+import com.vincent.polsnotitie.R
 import com.vincent.polsnotitie.presentation.theme.PolsnotitieTheme
+import java.util.Locale
+
+private const val PREFS_NAME = "wear_settings"
+private const val KEY_LANGUAGE = "wear_language"
 
 class MainActivity : ComponentActivity() {
     private val autoStartTrigger = mutableIntStateOf(0)
@@ -37,8 +50,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (intent?.getBooleanExtra("autostart", false) == true) autoStartTrigger.intValue++
+        val localizedCtx = applyLanguage(this)
         setContent {
-            MemoScreen(autoStartTrigger = autoStartTrigger.intValue)
+            CompositionLocalProvider(LocalContext provides localizedCtx) {
+                MemoScreen(autoStartTrigger = autoStartTrigger.intValue)
+            }
         }
     }
 
@@ -46,6 +62,30 @@ class MainActivity : ComponentActivity() {
         super.onNewIntent(intent)
         setIntent(intent)
         if (intent.getBooleanExtra("autostart", false) == true) autoStartTrigger.intValue++
+    }
+}
+
+private fun applyLanguage(context: Context): Context {
+    val code = resolveLanguageCode(context)
+    val locale = Locale.forLanguageTag(code)
+    val config = Configuration(context.resources.configuration).also { it.setLocale(locale) }
+    return context.createConfigurationContext(config)
+}
+
+private fun resolveLanguageCode(context: Context): String {
+    val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    return try {
+        val uri = Uri.parse("wear://*/settings/language")
+        val items = Tasks.await(Wearable.getDataClient(context).getDataItems(uri))
+        val code = items.firstOrNull()
+            ?.let { DataMapItem.fromDataItem(it).dataMap.getString("language") }
+            ?: prefs.getString(KEY_LANGUAGE, "nl")
+            ?: "nl"
+        items.release()
+        prefs.edit().putString(KEY_LANGUAGE, code).apply()
+        code
+    } catch (e: Exception) {
+        prefs.getString(KEY_LANGUAGE, "nl") ?: "nl"
     }
 }
 
@@ -60,8 +100,7 @@ fun MemoScreen(autoStartTrigger: Int = 0) {
         if (result.resultCode == Activity.RESULT_OK) {
             val text = result.data
                 ?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                ?.firstOrNull()
-                ?.trim()
+                ?.firstOrNull()?.trim()
             if (!text.isNullOrEmpty()) {
                 status = Status.Sending
                 MemoSender.send(context, text) { ok ->
@@ -76,13 +115,16 @@ fun MemoScreen(autoStartTrigger: Int = 0) {
     }
 
     fun startRecognition() {
+        val code = resolveLanguageCode(context)
+        val locale = when (code) {
+            "de" -> "de-DE"
+            "en" -> "en-GB"
+            else -> "nl-NL"
+        }
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-            putExtra(
-                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
-            )
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, "nl-NL")
-            putExtra(RecognizerIntent.EXTRA_PROMPT, "Spreek je notitie in")
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, locale)
+            putExtra(RecognizerIntent.EXTRA_PROMPT, context.getString(R.string.speech_prompt))
         }
         try {
             launcher.launch(intent)
@@ -96,12 +138,12 @@ fun MemoScreen(autoStartTrigger: Int = 0) {
     }
 
     val statusText = when (status) {
-        Status.Idle -> "Tik om in te spreken"
-        Status.Sending -> "Verzenden…"
-        Status.Sent -> "Verzonden ✓"
-        Status.NothingHeard -> "Niets verstaan, opnieuw?"
-        Status.Error -> "Versturen mislukt, opnieuw?"
-        Status.NotAvailable -> "Spraakherkenning niet beschikbaar"
+        Status.Idle         -> stringResource(R.string.tap_to_record)
+        Status.Sending      -> stringResource(R.string.sending)
+        Status.Sent         -> stringResource(R.string.sent)
+        Status.NothingHeard -> stringResource(R.string.nothing_heard)
+        Status.Error        -> stringResource(R.string.send_failed)
+        Status.NotAvailable -> stringResource(R.string.not_available)
     }
 
     PolsnotitieTheme {
@@ -114,7 +156,7 @@ fun MemoScreen(autoStartTrigger: Int = 0) {
             verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically)
         ) {
             Button(onClick = { startRecognition() }) {
-                Text("🎤  Inspreken")
+                Text("🎤  ${stringResource(R.string.record_button)}")
             }
             Text(
                 text = statusText,
