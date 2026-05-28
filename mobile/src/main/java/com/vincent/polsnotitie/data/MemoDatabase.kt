@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Memo::class, Place::class], version = 6, exportSchema = true)
+@Database(entities = [Memo::class, Place::class], version = 7, exportSchema = true)
 abstract class MemoDatabase : RoomDatabase() {
     abstract fun memoDao(): MemoDao
     abstract fun placeDao(): PlaceDao
@@ -16,6 +16,12 @@ abstract class MemoDatabase : RoomDatabase() {
         private val MIGRATION_5_6 = object : Migration(5, 6) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL("ALTER TABLE places ADD COLUMN address TEXT")
+            }
+        }
+
+        private val MIGRATION_6_7 = object : Migration(6, 7) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE memos ADD COLUMN pinnedAt INTEGER")
             }
         }
 
@@ -28,7 +34,7 @@ abstract class MemoDatabase : RoomDatabase() {
                     context.applicationContext,
                     MemoDatabase::class.java,
                     "memos.db"
-                ).addMigrations(MIGRATION_5_6).build().also { instance = it }
+                ).addMigrations(MIGRATION_5_6, MIGRATION_6_7).build().also { instance = it }
             }
     }
 }

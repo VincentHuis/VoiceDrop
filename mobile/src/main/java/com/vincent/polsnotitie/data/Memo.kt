@@ -14,5 +14,7 @@ data class Memo(
     /** Tijdstip waarop voor een herinnering een notificatie moet komen; null = geen tijd. */
     val remindAt: Long? = null,
     /** Plek (PlaceType-naam) waarbij een herinnering moet afgaan; null = geen locatie. */
-    val placeId: String? = null
+    val placeId: String? = null,
+    /** Tijdstip waarop memo vastgepind is; null = niet vastgepind. */
+    val pinnedAt: Long? = null
 )

@@ -12,14 +12,17 @@ interface MemoDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(memo: Memo)
 
-    @Query("SELECT * FROM memos WHERE category != :excludeCategory ORDER BY timestamp DESC")
+    @Query("SELECT * FROM memos WHERE category != :excludeCategory ORDER BY pinnedAt IS NOT NULL DESC, pinnedAt DESC, timestamp DESC")
     fun getAll(excludeCategory: String): Flow<List<Memo>>
 
     @Query(
         "SELECT * FROM memos WHERE text LIKE '%' || :query || '%' " +
-            "AND category != :excludeCategory ORDER BY timestamp DESC"
+            "AND category != :excludeCategory ORDER BY pinnedAt IS NOT NULL DESC, pinnedAt DESC, timestamp DESC"
     )
     fun search(query: String, excludeCategory: String): Flow<List<Memo>>
+
+    @Query("UPDATE memos SET pinnedAt = :pinnedAt WHERE id = :id")
+    suspend fun setPinned(id: String, pinnedAt: Long?)
 
     @Query("SELECT * FROM memos WHERE category = :category ORDER BY checkedAt IS NOT NULL, timestamp DESC")
     fun byCategory(category: String): Flow<List<Memo>>
