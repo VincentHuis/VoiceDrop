@@ -34,7 +34,7 @@ object MemoProcessor {
         var remindAt: Long? = null
         var placeId: String? = null
         if (classified.category == Category.HERINNERINGEN) {
-            val placeResult = PlaceParser.parse(text)
+            val placeResult = PlaceParser(NlLanguageConfig).parse(text)
             if (placeResult.place != null) {
                 placeId = placeResult.place.name
                 text = placeResult.text
