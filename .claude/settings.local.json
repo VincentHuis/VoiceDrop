@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(.\\\\gradlew.bat :mobile:testDebugUnitTest --tests \"com.vincent.polsnotitie.ReminderTimeParserTest\" --console=plain 2>&1 | Select-Object -Last 8)"
+    ]
+  }
+}

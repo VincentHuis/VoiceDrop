@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">VoiceDrop</string>
+    <string name="hello_world">Hello, %1$s!</string>
+    <string name="tile_label">Inspreken</string>
+</resources>

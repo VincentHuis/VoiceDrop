@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- VoiceDrop merk-palet -->
+    <color name="amber_gold">#FFFFBF00</color>
+    <color name="vibrant_coral">#FFFE5F55</color>
+    <color name="steel_azure">#FF004E89</color>
+    <color name="baltic_blue">#FF1A659E</color>
+    <color name="platinum">#FFEFEFEF</color>
+    <color name="ink_dark">#FF1A1A1A</color>
+</resources>
