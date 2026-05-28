@@ -4,10 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 /** De drie vaste plekken waaraan locatie-herinneringen gekoppeld kunnen worden. */
-enum class PlaceType(val displayName: String) {
-    THUIS("Thuis"),
-    WERK("Werk"),
-    SUPERMARKT("Supermarkt");
+enum class PlaceType {
+    THUIS, WERK, SUPERMARKT;
 
     companion object {
         fun fromName(name: String?): PlaceType? = entries.firstOrNull { it.name == name }

@@ -104,6 +104,7 @@ import com.vincent.polsnotitie.ui.theme.Platinum
 import com.vincent.polsnotitie.ui.theme.PolsnotitieTheme
 import com.vincent.polsnotitie.ui.theme.SteelAzure
 import com.vincent.polsnotitie.ui.theme.VibrantCoral
+import com.vincent.polsnotitie.R
 import com.vincent.polsnotitie.widget.ShoppingWidget
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -117,6 +118,25 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.UUID
+
+private fun Category.displayName(context: Context): String = context.getString(
+    when (this) {
+        Category.BOODSCHAPPEN  -> R.string.category_groceries
+        Category.TODO          -> R.string.category_todo
+        Category.IDEEEN        -> R.string.category_ideas
+        Category.HERINNERINGEN -> R.string.category_reminders
+        Category.AGENDA        -> R.string.category_agenda
+        Category.OVERIG        -> R.string.category_other
+    }
+)
+
+private fun PlaceType.displayName(context: Context): String = context.getString(
+    when (this) {
+        PlaceType.THUIS      -> R.string.place_home
+        PlaceType.WERK       -> R.string.place_work
+        PlaceType.SUPERMARKT -> R.string.place_supermarket
+    }
+)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -386,7 +406,7 @@ private fun MemoCard(memo: Memo, onPin: () -> Unit, onSetTime: (String) -> Unit)
                             tint = MaterialTheme.colorScheme.primary
                         )
                         Text(
-                            text = "Bij ${place.displayName}",
+                            text = "Bij ${place.displayName(context)}",
                             style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.primary
                         )
@@ -543,7 +563,7 @@ private fun CategoryChip(category: Category) {
             .padding(horizontal = 12.dp, vertical = 4.dp)
     ) {
         Text(
-            text = category.displayName,
+            text = category.displayName(LocalContext.current),
             style = MaterialTheme.typography.labelMedium,
             color = if (color.luminance() > 0.5f) InkDark else Color.White
         )
@@ -776,7 +796,7 @@ fun PlacesScreen(onBack: () -> Unit, onPick: (PlaceType) -> Unit) {
                         )
                         val saved = placeByType[type.name]
                         Column(modifier = Modifier.weight(1f)) {
-                            Text(type.displayName, style = MaterialTheme.typography.titleMedium)
+                            Text(type.displayName(context), style = MaterialTheme.typography.titleMedium)
                             Text(
                                 text = saved?.address
                                     ?: if (saved != null) "Ingesteld" else "Niet ingesteld",
@@ -868,7 +888,7 @@ fun MapPickerScreen(type: PlaceType, onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Kies ${type.displayName}") },
+                title = { Text("Kies ${type.displayName(context)}") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Terug")
