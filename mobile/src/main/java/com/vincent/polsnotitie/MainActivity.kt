@@ -64,6 +64,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberSwipeToDismissBoxState
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -106,6 +107,7 @@ import com.vincent.polsnotitie.ui.theme.PolsnotitieTheme
 import com.vincent.polsnotitie.ui.theme.SteelAzure
 import com.vincent.polsnotitie.ui.theme.VibrantCoral
 import com.vincent.polsnotitie.R
+import com.vincent.polsnotitie.language.withAppLanguage
 import com.vincent.polsnotitie.widget.ShoppingWidget
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -143,11 +145,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val prefs = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+        val localizedCtx = this.withAppLanguage(prefs)
         val startInShopping = intent?.getBooleanExtra("openShopping", false) == true
         val timeForMemo = intent?.getStringExtra("setTimeForMemo")
         setContent {
-            PolsnotitieTheme {
-                AppRoot(startInShopping = startInShopping, startTimeForMemoId = timeForMemo)
+            CompositionLocalProvider(LocalContext provides localizedCtx) {
+                PolsnotitieTheme {
+                    AppRoot(startInShopping = startInShopping, startTimeForMemoId = timeForMemo)
+                }
             }
         }
     }
@@ -427,7 +433,7 @@ private fun MemoCard(memo: Memo, onPin: () -> Unit, onSetTime: (String) -> Unit)
                             tint = MaterialTheme.colorScheme.primary
                         )
                         Text(
-                            text = memo.remindAt?.let { stringResource(R.string.reminder_prefix, formatTimestamp(it)) }
+                            text = memo.remindAt?.let { stringResource(R.string.reminder_prefix, formatTimestamp(it, context)) }
                                 ?: stringResource(R.string.add_time),
                             style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.primary
@@ -442,7 +448,7 @@ private fun MemoCard(memo: Memo, onPin: () -> Unit, onSetTime: (String) -> Unit)
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = formatTimestamp(memo.timestamp),
+                    text = formatTimestamp(memo.timestamp, context),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.weight(1f)
@@ -580,8 +586,11 @@ private fun categoryColor(category: Category): Color = when (category) {
     Category.OVERIG -> Platinum
 }
 
-private fun formatTimestamp(timestamp: Long): String =
-    SimpleDateFormat("d MMM yyyy, HH:mm", Locale.forLanguageTag("nl")).format(Date(timestamp))
+private fun formatTimestamp(timestamp: Long, context: Context): String {
+    val prefs = context.getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+    val langCode = prefs.getString("app_language", "nl") ?: "nl"
+    return SimpleDateFormat("d MMM yyyy, HH:mm", Locale.forLanguageTag(langCode)).format(Date(timestamp))
+}
 
 private fun copyToClipboard(context: Context, text: String) {
     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -632,7 +641,7 @@ fun ReminderTimeScreen(memoId: String, onDone: () -> Unit) {
             )
             memo?.remindAt?.let {
                 Text(
-                    text = "Huidige tijd: ${formatTimestamp(it)}",
+                    text = "Huidige tijd: ${formatTimestamp(it, context)}",
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
