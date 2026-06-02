@@ -37,4 +37,26 @@
     <string name="place_home">Zuhause</string>
     <string name="place_work">Arbeit</string>
     <string name="place_supermarket">Supermarkt</string>
+
+    <string name="pin_label">Anheften</string>
+    <string name="unpin_label">Lösen</string>
+
+    <string name="no_groceries">Keine Einkäufe</string>
+
+    <string name="set_time_title">Zeit festlegen</string>
+    <string name="current_time_prefix">Aktuelle Zeit: %s</string>
+    <string name="pick_date_time">Datum und Zeit wählen</string>
+
+    <string name="places_instructions">Tippe auf einen Ort und suche eine Adresse oder setze ihn auf der Karte (100 m Umkreis). Damit Benachrichtigungen bei geschlossener App funktionieren, setze den Standort auf \'Immer zulassen\'.</string>
+
+    <string name="address_example_placeholder">Beispiel: Herestraat, Groningen, Niederlande</string>
+    <string name="search_address">Adresse suchen</string>
+
+    <string name="add_place">Ort hinzufügen</string>
+    <string name="edit_place">Ort bearbeiten</string>
+    <string name="place_name_label">Name</string>
+    <string name="no_places_yet">Noch keine Orte</string>
+    <string name="delete_place_title">Ort löschen?</string>
+    <string name="delete_place_confirm">\'%s\' löschen?</string>
+    <string name="cancel_label">Abbrechen</string>
 </resources>

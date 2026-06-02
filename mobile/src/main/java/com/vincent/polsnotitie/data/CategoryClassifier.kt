@@ -1,8 +1,6 @@
 package com.vincent.polsnotitie.data
 
-import com.vincent.polsnotitie.language.LanguageConfig
-
-class CategoryClassifier(@Suppress("UNUSED_PARAMETER") config: LanguageConfig) {
+class CategoryClassifier {
 
     data class Result(val category: Category, val text: String)
 

@@ -37,4 +37,26 @@
     <string name="place_home">Home</string>
     <string name="place_work">Work</string>
     <string name="place_supermarket">Supermarket</string>
+
+    <string name="pin_label">Pin</string>
+    <string name="unpin_label">Unpin</string>
+
+    <string name="no_groceries">No groceries</string>
+
+    <string name="set_time_title">Set time</string>
+    <string name="current_time_prefix">Current time: %s</string>
+    <string name="pick_date_time">Pick date and time</string>
+
+    <string name="places_instructions">Tap a place and search for an address or place it on the map (100 m radius). For notifications when the app is closed, set location to \'Always allow\'.</string>
+
+    <string name="address_example_placeholder">Example: Herestraat, Groningen, The Netherlands</string>
+    <string name="search_address">Search address</string>
+
+    <string name="add_place">Add place</string>
+    <string name="edit_place">Edit place</string>
+    <string name="place_name_label">Name</string>
+    <string name="no_places_yet">No places yet</string>
+    <string name="delete_place_title">Delete place?</string>
+    <string name="delete_place_confirm">Delete \'%s\'?</string>
+    <string name="cancel_label">Cancel</string>
 </resources>

@@ -2,16 +2,13 @@ package com.vincent.polsnotitie
 
 import com.vincent.polsnotitie.data.Category
 import com.vincent.polsnotitie.data.CategoryClassifier
-import com.vincent.polsnotitie.language.configs.DeLanguageConfig
-import com.vincent.polsnotitie.language.configs.EnLanguageConfig
-import com.vincent.polsnotitie.language.configs.NlLanguageConfig
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class CategoryClassifierTest {
 
     private fun assertCategory(input: String, expected: Category, expectedText: String) {
-        val result = CategoryClassifier(NlLanguageConfig).classify(input)
+        val result = CategoryClassifier().classify(input)
         assertEquals("category for '$input'", expected, result.category)
         assertEquals("text for '$input'", expectedText, result.text)
     }
@@ -61,7 +58,7 @@ class CategoryClassifierTest {
 
     @Test
     fun deKeywords() {
-        val clf = CategoryClassifier(DeLanguageConfig)
+        val clf = CategoryClassifier()
         assertEquals(Category.BOODSCHAPPEN, clf.classify("Einkaufen Milch").category)
         assertEquals(Category.IDEEEN,        clf.classify("Idee neue App").category)
         assertEquals(Category.TODO,          clf.classify("Aufgabe Rechnung schicken").category)
@@ -70,7 +67,7 @@ class CategoryClassifierTest {
 
     @Test
     fun enKeywords() {
-        val clf = CategoryClassifier(EnLanguageConfig)
+        val clf = CategoryClassifier()
         assertEquals(Category.BOODSCHAPPEN, clf.classify("Groceries milk and bread").category)
         assertEquals(Category.IDEEEN,        clf.classify("Idea new feature").category)
         assertEquals(Category.TODO,          clf.classify("Task send invoice").category)

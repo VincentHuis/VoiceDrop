@@ -11,6 +11,7 @@ import android.speech.RecognizerIntent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.lifecycle.lifecycleScope
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -39,6 +40,9 @@ import com.google.android.gms.wearable.DataMapItem
 import com.google.android.gms.wearable.Wearable
 import com.vincent.polsnotitie.R
 import com.vincent.polsnotitie.presentation.theme.PolsnotitieTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 
 private const val PREFS_NAME = "wear_settings"
@@ -54,6 +58,28 @@ class MainActivity : ComponentActivity() {
         setContent {
             CompositionLocalProvider(LocalContext provides localizedCtx) {
                 MemoScreen(autoStartTrigger = autoStartTrigger.intValue)
+            }
+        }
+        refreshLanguageFromDataLayer()
+    }
+
+    private fun refreshLanguageFromDataLayer() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            val current = prefs.getString(KEY_LANGUAGE, "nl") ?: "nl"
+            val remote = try {
+                val uri = Uri.parse("wear://*/settings/language")
+                val items = Tasks.await(Wearable.getDataClient(applicationContext).getDataItems(uri))
+                val code = items.firstOrNull()
+                    ?.let { DataMapItem.fromDataItem(it).dataMap.getString("language") }
+                items.release()
+                code
+            } catch (e: Exception) {
+                null
+            }
+            if (remote != null && remote != current) {
+                prefs.edit().putString(KEY_LANGUAGE, remote).apply()
+                withContext(Dispatchers.Main) { recreate() }
             }
         }
     }
@@ -74,19 +100,7 @@ private fun applyLanguage(context: Context): Context {
 
 private fun resolveLanguageCode(context: Context): String {
     val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    return try {
-        val uri = Uri.parse("wear://*/settings/language")
-        val items = Tasks.await(Wearable.getDataClient(context).getDataItems(uri))
-        val code = items.firstOrNull()
-            ?.let { DataMapItem.fromDataItem(it).dataMap.getString("language") }
-            ?: prefs.getString(KEY_LANGUAGE, "nl")
-            ?: "nl"
-        items.release()
-        prefs.edit().putString(KEY_LANGUAGE, code).apply()
-        code
-    } catch (e: Exception) {
-        prefs.getString(KEY_LANGUAGE, "nl") ?: "nl"
-    }
+    return prefs.getString(KEY_LANGUAGE, "nl") ?: "nl"
 }
 
 private enum class Status { Idle, Sending, Sent, NothingHeard, Error, NotAvailable }

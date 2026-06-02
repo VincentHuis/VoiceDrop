@@ -15,4 +15,13 @@ object LanguagePreference {
 
     fun set(prefs: SharedPreferences, lang: AppLanguage) =
         prefs.edit().putString(KEY, lang.code).apply()
+
+    fun speechLocale(prefs: SharedPreferences): String {
+        val code = prefs.getString(KEY, null) ?: get(prefs).code
+        return when (code) {
+            "de" -> "de-DE"
+            "en" -> "en-GB"
+            else -> "nl-NL"
+        }
+    }
 }

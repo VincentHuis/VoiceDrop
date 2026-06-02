@@ -49,4 +49,32 @@
     <string name="place_home">Thuis</string>
     <string name="place_work">Werk</string>
     <string name="place_supermarket">Supermarkt</string>
+
+    <!-- Memo card -->
+    <string name="pin_label">Vastpinnen</string>
+    <string name="unpin_label">Losmaken</string>
+
+    <!-- Shopping screen -->
+    <string name="no_groceries">Geen boodschappen</string>
+
+    <!-- Reminder time screen -->
+    <string name="set_time_title">Tijd instellen</string>
+    <string name="current_time_prefix">Huidige tijd: %s</string>
+    <string name="pick_date_time">Kies datum en tijd</string>
+
+    <!-- Places screen -->
+    <string name="places_instructions">Tik een plek aan en zoek een adres of zet hem op de kaart (100 m eromheen). Voor meldingen als de app dicht is, zet locatie op \'Altijd toestaan\'.</string>
+
+    <!-- Map picker screen -->
+    <string name="address_example_placeholder">Bijvoorbeeld: Herestraat, Groningen, Nederland</string>
+    <string name="search_address">Zoek adres</string>
+
+    <!-- Vrije-naam plekken -->
+    <string name="add_place">Plek toevoegen</string>
+    <string name="edit_place">Plek bewerken</string>
+    <string name="place_name_label">Naam</string>
+    <string name="no_places_yet">Nog geen plekken</string>
+    <string name="delete_place_title">Plek verwijderen?</string>
+    <string name="delete_place_confirm">\'%s\' verwijderen?</string>
+    <string name="cancel_label">Annuleren</string>
 </resources>

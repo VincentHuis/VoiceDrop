@@ -38,7 +38,7 @@ object GeofenceManager {
 
         val geofences = places.map { place ->
             Geofence.Builder()
-                .setRequestId(place.type)
+                .setRequestId(place.id.toString())
                 .setCircularRegion(place.lat, place.lng, place.radius)
                 .setExpirationDuration(Geofence.NEVER_EXPIRE)
                 .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)

@@ -18,12 +18,12 @@ class MemoProcessor(private val context: Context) {
 
     private val prefs = context.getSharedPreferences("app_settings", Context.MODE_PRIVATE)
     private val config = LanguageProvider.get(prefs)
-    private val classifier = CategoryClassifier(config)
+    private val classifier = CategoryClassifier()
     private val timeParser = ReminderTimeParser(config)
-    private val placeParser = PlaceParser(config)
 
     suspend fun process(id: String, rawText: String, timestamp: Long) {
         val dao = MemoDatabase.get(context).memoDao()
+        val placeDao = MemoDatabase.get(context).placeDao()
         val classified = classifier.classify(rawText)
 
         if (classified.category == Category.AGENDA) {
@@ -35,9 +35,10 @@ class MemoProcessor(private val context: Context) {
         var remindAt: Long? = null
         var placeId: String? = null
         if (classified.category == Category.HERINNERINGEN) {
-            val placeResult = placeParser.parse(text)
+            val places = placeDao.getAllNow()
+            val placeResult = PlaceParser(places).parse(text)
             if (placeResult.place != null) {
-                placeId = placeResult.place.name
+                placeId = placeResult.place.id.toString()
                 text = placeResult.text
             } else {
                 val parsed = timeParser.parse(text)
