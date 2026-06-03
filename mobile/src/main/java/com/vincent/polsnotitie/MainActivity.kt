@@ -1,17 +1,15 @@
 package com.vincent.polsnotitie
 
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
@@ -19,6 +17,7 @@ import com.vincent.polsnotitie.language.withAppLanguage
 import com.vincent.polsnotitie.location.GeofenceManager
 import com.vincent.polsnotitie.ui.screens.MapPickerScreen
 import com.vincent.polsnotitie.ui.screens.MemoListScreen
+import com.vincent.polsnotitie.ui.screens.OnboardingScreen
 import com.vincent.polsnotitie.ui.screens.PlacesScreen
 import com.vincent.polsnotitie.ui.screens.ReminderTimeScreen
 import com.vincent.polsnotitie.ui.screens.SettingsScreen
@@ -48,8 +47,18 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AppRoot(startInShopping: Boolean = false, startTimeForMemoId: String? = null) {
-    RequestPermissions()
     val context = LocalContext.current
+    val prefs = remember { context.getSharedPreferences("app_settings", Context.MODE_PRIVATE) }
+    var onboardingDone by rememberSaveable { mutableStateOf(prefs.getBoolean("onboarding_completed", false)) }
+
+    if (!onboardingDone) {
+        OnboardingScreen(onDone = {
+            prefs.edit().putBoolean("onboarding_completed", true).apply()
+            onboardingDone = true
+        })
+        return
+    }
+
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) { GeofenceManager.registerAll(context) }
     }
@@ -87,19 +96,3 @@ fun AppRoot(startInShopping: Boolean = false, startTimeForMemoId: String? = null
     }
 }
 
-@Composable
-private fun RequestPermissions() {
-    val launcher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) {}
-    LaunchedEffect(Unit) {
-        val perms = buildList {
-            add(android.Manifest.permission.READ_CALENDAR)
-            add(android.Manifest.permission.WRITE_CALENDAR)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                add(android.Manifest.permission.POST_NOTIFICATIONS)
-            }
-        }
-        launcher.launch(perms.toTypedArray())
-    }
-}

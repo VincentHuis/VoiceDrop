@@ -61,4 +61,25 @@
     <string name="delete_place_title">Ort löschen?</string>
     <string name="delete_place_confirm">\'%s\' löschen?</string>
     <string name="cancel_label">Abbrechen</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_next">Weiter</string>
+    <string name="onboarding_done">Fertig</string>
+    <string name="onboarding_page1_title">Einsprechen, fertig</string>
+    <string name="onboarding_page1_body">Sprich eine Notiz über die Kachel auf deiner Uhr ein oder tippe auf die Mikrofon-Schaltfläche in der App. Die Notiz wird automatisch erkannt und verarbeitet.</string>
+    <string name="onboarding_page2_title">Automatisch sortiert</string>
+    <string name="onboarding_page2_body">Beginne mit einem Stichwort und die App weiß, was es ist. "Einkaufen Milch" landet auf deiner Einkaufsliste. "Erinnerung morgen Zahnarzt" plant eine Erinnerung.</string>
+    <string name="onboarding_page3_title">Erinnerung nach Zeit oder Ort</string>
+    <string name="onboarding_page3_body">Die App kann dich zu einer bestimmten Zeit oder beim Ankommen an einem Ort erinnern — zu Hause, bei der Arbeit oder im Supermarkt. Deine Einkaufsliste erscheint automatisch, wenn du einen Supermarkt betrittst. Dafür sind einige Berechtigungen erforderlich.</string>
+    <string name="onboarding_perm_location">Standort</string>
+    <string name="onboarding_perm_location_desc">Für standortbasierte Erinnerungen und die Einkaufsbenachrichtigung beim Betreten des Supermarkts.</string>
+    <string name="onboarding_perm_location_denied">Standort-Erinnerungen und Einkaufsbenachrichtigungen funktionieren nicht.</string>
+    <string name="onboarding_perm_notif">Benachrichtigungen</string>
+    <string name="onboarding_perm_notif_desc">Für alle Erinnerungen und Einkaufsbenachrichtigungen.</string>
+    <string name="onboarding_perm_notif_denied">Du erhältst keine Benachrichtigungen von der App.</string>
+    <string name="onboarding_perm_calendar">Kalender</string>
+    <string name="onboarding_perm_calendar_desc">Um Termine direkt in Google Kalender einzutragen.</string>
+    <string name="onboarding_perm_calendar_denied">Kalendereinträge werden nicht automatisch gespeichert.</string>
+    <string name="onboarding_allow">Erlauben</string>
+    <string name="onboarding_open_settings">Einstellungen öffnen</string>
 </resources>

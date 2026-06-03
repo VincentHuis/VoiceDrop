@@ -61,4 +61,25 @@
     <string name="delete_place_title">Delete place?</string>
     <string name="delete_place_confirm">Delete \'%s\'?</string>
     <string name="cancel_label">Cancel</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_done">Done</string>
+    <string name="onboarding_page1_title">Speak, and it\'s done</string>
+    <string name="onboarding_page1_body">Record a note using the Tile on your watch, or tap the microphone button in the app. Your note is recognized and processed automatically.</string>
+    <string name="onboarding_page2_title">Automatically sorted</string>
+    <string name="onboarding_page2_body">Start with a keyword and the app knows what it is. "Groceries milk" lands in your shopping list. "Reminder tomorrow dentist" schedules a reminder.</string>
+    <string name="onboarding_page3_title">Reminder by time or place</string>
+    <string name="onboarding_page3_body">The app can remind you at a set time or when you arrive somewhere — home, work, or the supermarket. Your shopping list appears automatically when you enter a supermarket. A few permissions are needed for this.</string>
+    <string name="onboarding_perm_location">Location</string>
+    <string name="onboarding_perm_location_desc">For location-based reminders and the shopping notification when you arrive at the supermarket.</string>
+    <string name="onboarding_perm_location_denied">Location reminders and shopping notifications won\'t work.</string>
+    <string name="onboarding_perm_notif">Notifications</string>
+    <string name="onboarding_perm_notif_desc">For all reminders and shopping notifications.</string>
+    <string name="onboarding_perm_notif_denied">You won\'t receive any notifications from the app.</string>
+    <string name="onboarding_perm_calendar">Calendar</string>
+    <string name="onboarding_perm_calendar_desc">To add appointments directly to Google Calendar.</string>
+    <string name="onboarding_perm_calendar_denied">Calendar items won\'t be saved automatically.</string>
+    <string name="onboarding_allow">Allow</string>
+    <string name="onboarding_open_settings">Open settings</string>
 </resources>

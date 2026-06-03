@@ -79,4 +79,25 @@
     <string name="delete_place_title">Plek verwijderen?</string>
     <string name="delete_place_confirm">\'%s\' verwijderen?</string>
     <string name="cancel_label">Annuleren</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_next">Volgende</string>
+    <string name="onboarding_done">Klaar</string>
+    <string name="onboarding_page1_title">Spreek, en klaar</string>
+    <string name="onboarding_page1_body">Spreek een notitie in via de Tile op je horloge, of tik op de microfoonknop in de app. De notitie wordt automatisch herkend en verwerkt.</string>
+    <string name="onboarding_page2_title">Automatisch gesorteerd</string>
+    <string name="onboarding_page2_body">Begin met een trefwoord en de app weet wat het is. "Boodschappen melk" belandt in je boodschappenlijst. "Reminder morgen tandarts" plant een herinnering.</string>
+    <string name="onboarding_page3_title">Herinnering op tijd of plek</string>
+    <string name="onboarding_page3_body">De app kan je herinneren op een tijdstip of als je ergens aankomt — thuis, op werk of in de supermarkt. Je boodschappenlijst verschijnt automatisch als je een supermarkt binnenloopt. Hiervoor zijn een paar rechten nodig.</string>
+    <string name="onboarding_perm_location">Locatie</string>
+    <string name="onboarding_perm_location_desc">Voor herinneringen op locatie en de boodschappenmelding bij aankomst in de supermarkt.</string>
+    <string name="onboarding_perm_location_denied">Locatie-herinneringen en boodschappenmeldingen werken niet.</string>
+    <string name="onboarding_perm_notif">Meldingen</string>
+    <string name="onboarding_perm_notif_desc">Voor alle herinneringen en boodschappenmeldingen.</string>
+    <string name="onboarding_perm_notif_denied">Je ontvangt geen meldingen van de app.</string>
+    <string name="onboarding_perm_calendar">Agenda</string>
+    <string name="onboarding_perm_calendar_desc">Om afspraken direct in Google Calendar te zetten.</string>
+    <string name="onboarding_perm_calendar_denied">Agenda-items worden niet automatisch opgeslagen.</string>
+    <string name="onboarding_allow">Toestaan</string>
+    <string name="onboarding_open_settings">Instellingen openen</string>
 </resources>
