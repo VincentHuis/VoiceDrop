@@ -21,6 +21,10 @@ object LanguagePreference {
         return when (code) {
             "de" -> "de-DE"
             "en" -> "en-GB"
+            "fr" -> "fr-FR"
+            "es" -> "es-ES"
+            "ko" -> "ko-KR"
+            "ja" -> "ja-JP"
             else -> "nl-NL"
         }
     }

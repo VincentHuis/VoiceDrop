@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VoiceDrop</string>
+    <string name="shopping_label">Courses</string>
+    <string name="settings_label">Paramètres</string>
+    <string name="no_notes">Pas encore de notes</string>
+    <string name="no_results">Aucun résultat</string>
+    <string name="search_hint">Rechercher…</string>
+    <string name="record_label">Dicter</string>
+    <string name="speech_prompt">Dictez votre note</string>
+    <string name="delete_label">Supprimer</string>
+    <string name="copy_label">Copier</string>
+    <string name="share_label">Partager</string>
+    <string name="reminder_prefix">Rappel : %s</string>
+    <string name="add_time">Ajouter une heure</string>
+    <string name="at_place">À %s</string>
+    <string name="settings_title">Paramètres</string>
+    <string name="language_title">Langue</string>
+    <string name="locations_title">Lieux</string>
+    <string name="locations_subtitle">Configurer les lieux</string>
+    <string name="places_title">Lieux</string>
+    <string name="back_label">Retour</string>
+    <string name="place_set">Configuré</string>
+    <string name="place_not_set">Non configuré</string>
+    <string name="allow_location">Toujours autoriser la localisation</string>
+    <string name="pick_place">Choisir %s</string>
+    <string name="current_location">Emplacement actuel</string>
+    <string name="address_hint">Rechercher une adresse…</string>
+    <string name="address_not_found">Adresse introuvable</string>
+    <string name="save_location">Enregistrer</string>
+    <string name="category_groceries">Courses</string>
+    <string name="category_todo">Tâche</string>
+    <string name="category_ideas">Idées</string>
+    <string name="category_reminders">Rappels</string>
+    <string name="category_agenda">Agenda</string>
+    <string name="category_other">Autre</string>
+    <string name="place_home">Maison</string>
+    <string name="place_work">Travail</string>
+    <string name="place_supermarket">Supermarché</string>
+    <string name="place_friends">Amis</string>
+    <string name="place_other_type">Autre</string>
+
+    <string name="pin_label">Épingler</string>
+    <string name="unpin_label">Désépingler</string>
+
+    <string name="no_groceries">Pas de courses</string>
+
+    <string name="set_time_title">Définir l\'heure</string>
+    <string name="current_time_prefix">Heure actuelle : %s</string>
+    <string name="pick_date_time">Choisir une date et une heure</string>
+
+    <string name="places_instructions">Appuyez sur un lieu et recherchez une adresse ou placez-le sur la carte (rayon de 100 m). Pour recevoir des notifications lorsque l\'application est fermée, autorisez toujours la localisation.</string>
+
+    <string name="address_example_placeholder">Exemple : Rue de Rivoli, Paris, France</string>
+    <string name="search_address">Rechercher une adresse</string>
+
+    <string name="add_place">Ajouter un lieu</string>
+    <string name="edit_place">Modifier le lieu</string>
+    <string name="place_name_label">Nom</string>
+    <string name="no_places_yet">Pas encore de lieux</string>
+    <string name="delete_place_title">Supprimer le lieu ?</string>
+    <string name="delete_place_confirm">Supprimer \'%s\' ?</string>
+    <string name="cancel_label">Annuler</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_next">Suivant</string>
+    <string name="onboarding_done">Terminer</string>
+    <string name="onboarding_page1_title">Dictez, c\'est fait</string>
+    <string name="onboarding_page1_body">Dictez une note via la vignette de votre montre ou appuyez sur le bouton micro dans l\'application. La note est reconnue et traitée automatiquement.</string>
+    <string name="onboarding_page2_title">Trié automatiquement</string>
+    <string name="onboarding_page2_body">Commencez par un mot-clé et l\'appli sait de quoi il s\'agit. « Courses lait » va dans votre liste de courses. « Rappel demain dentiste » planifie un rappel.</string>
+    <string name="onboarding_page3_title">Rappel à l\'heure ou au lieu</string>
+    <string name="onboarding_page3_body">L\'appli peut vous rappeler à une heure précise ou à votre arrivée quelque part — à la maison, au travail ou au supermarché. Votre liste de courses apparaît automatiquement à l\'entrée d\'un supermarché. Quelques autorisations sont nécessaires.</string>
+    <string name="onboarding_perm_location">Localisation</string>
+    <string name="onboarding_perm_location_desc">Pour les rappels basés sur la localisation et la notification de courses à l\'arrivée au supermarché.</string>
+    <string name="onboarding_perm_location_denied">Les rappels de localisation et les notifications de courses ne fonctionneront pas.</string>
+    <string name="onboarding_perm_notif">Notifications</string>
+    <string name="onboarding_perm_notif_desc">Pour tous les rappels et les notifications de courses.</string>
+    <string name="onboarding_perm_notif_denied">Vous ne recevrez aucune notification de l\'application.</string>
+    <string name="onboarding_perm_calendar">Agenda</string>
+    <string name="onboarding_perm_calendar_desc">Pour ajouter des rendez-vous directement dans Google Agenda.</string>
+    <string name="onboarding_perm_calendar_denied">Les entrées d\'agenda ne seront pas enregistrées automatiquement.</string>
+    <string name="onboarding_allow">Autoriser</string>
+    <string name="onboarding_open_settings">Ouvrir les paramètres</string>
+</resources>

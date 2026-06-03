@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VoiceDrop</string>
+    <string name="shopping_label">買い物</string>
+    <string name="settings_label">設定</string>
+    <string name="no_notes">メモはまだありません</string>
+    <string name="no_results">結果なし</string>
+    <string name="search_hint">検索…</string>
+    <string name="record_label">録音</string>
+    <string name="speech_prompt">メモを話してください</string>
+    <string name="delete_label">削除</string>
+    <string name="copy_label">コピー</string>
+    <string name="share_label">共有</string>
+    <string name="reminder_prefix">リマインダー: %s</string>
+    <string name="add_time">時間を追加</string>
+    <string name="at_place">%sにて</string>
+    <string name="settings_title">設定</string>
+    <string name="language_title">言語</string>
+    <string name="locations_title">場所</string>
+    <string name="locations_subtitle">場所の設定</string>
+    <string name="places_title">場所</string>
+    <string name="back_label">戻る</string>
+    <string name="place_set">設定済み</string>
+    <string name="place_not_set">未設定</string>
+    <string name="allow_location">常に位置情報を許可</string>
+    <string name="pick_place">%sを選択</string>
+    <string name="current_location">現在地</string>
+    <string name="address_hint">住所を検索…</string>
+    <string name="address_not_found">住所が見つかりません</string>
+    <string name="save_location">保存</string>
+    <string name="category_groceries">買い物</string>
+    <string name="category_todo">タスク</string>
+    <string name="category_ideas">アイデア</string>
+    <string name="category_reminders">リマインダー</string>
+    <string name="category_agenda">予定</string>
+    <string name="category_other">その他</string>
+    <string name="place_home">自宅</string>
+    <string name="place_work">職場</string>
+    <string name="place_supermarket">スーパー</string>
+    <string name="place_friends">友人</string>
+    <string name="place_other_type">その他</string>
+
+    <string name="pin_label">ピン留め</string>
+    <string name="unpin_label">ピン解除</string>
+
+    <string name="no_groceries">買い物なし</string>
+
+    <string name="set_time_title">時間を設定</string>
+    <string name="current_time_prefix">現在時刻: %s</string>
+    <string name="pick_date_time">日時を選択</string>
+
+    <string name="places_instructions">場所をタップして住所を検索するか、地図上に配置してください（半径100m）。アプリを閉じているときに通知を受けるには、位置情報を「常に許可」に設定してください。</string>
+
+    <string name="address_example_placeholder">例：渋谷区、東京、日本</string>
+    <string name="search_address">住所を検索</string>
+
+    <string name="add_place">場所を追加</string>
+    <string name="edit_place">場所を編集</string>
+    <string name="place_name_label">名前</string>
+    <string name="no_places_yet">まだ場所がありません</string>
+    <string name="delete_place_title">場所を削除しますか？</string>
+    <string name="delete_place_confirm">「%s」を削除しますか？</string>
+    <string name="cancel_label">キャンセル</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_next">次へ</string>
+    <string name="onboarding_done">完了</string>
+    <string name="onboarding_page1_title">話すだけで完了</string>
+    <string name="onboarding_page1_body">時計のタイルでメモを話すか、アプリのマイクボタンをタップしてください。メモは自動的に認識・処理されます。</string>
+    <string name="onboarding_page2_title">自動で分類</string>
+    <string name="onboarding_page2_body">キーワードで始めれば、アプリが内容を把握します。「買い物 牛乳」は買い物リストへ。「リマインダー 明日 歯医者」はリマインダーを設定します。</string>
+    <string name="onboarding_page3_title">時間または場所でリマインド</string>
+    <string name="onboarding_page3_body">アプリは指定した時間や場所への到着時に通知します — 自宅、職場、またはスーパーで。スーパーに入ると買い物リストが自動的に表示されます。いくつかの権限が必要です。</string>
+    <string name="onboarding_perm_location">位置情報</string>
+    <string name="onboarding_perm_location_desc">位置情報ベースのリマインダーとスーパー到着時の買い物通知に必要です。</string>
+    <string name="onboarding_perm_location_denied">位置情報リマインダーと買い物通知が機能しません。</string>
+    <string name="onboarding_perm_notif">通知</string>
+    <string name="onboarding_perm_notif_desc">すべてのリマインダーと買い物通知に必要です。</string>
+    <string name="onboarding_perm_notif_denied">アプリからの通知を受け取れません。</string>
+    <string name="onboarding_perm_calendar">カレンダー</string>
+    <string name="onboarding_perm_calendar_desc">Google カレンダーに予定を直接追加するために必要です。</string>
+    <string name="onboarding_perm_calendar_denied">カレンダーの予定が自動保存されません。</string>
+    <string name="onboarding_allow">許可</string>
+    <string name="onboarding_open_settings">設定を開く</string>
+</resources>

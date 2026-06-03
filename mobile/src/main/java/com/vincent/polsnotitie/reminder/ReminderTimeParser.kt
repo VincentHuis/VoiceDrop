@@ -166,7 +166,11 @@ class ReminderTimeParser(private val config: LanguageConfig) {
     private fun toInt(token: String): Int? = token.toIntOrNull() ?: tc.numberWords[token]
 
     private fun contains(lower: String, word: String, ranges: MutableList<IntRange>): Boolean {
-        val m = Regex("\\b${Regex.escape(word)}\\b").find(lower) ?: return false
+        // \b does not work with CJK characters; use plain match for non-ASCII words
+        val isCjk = word.any { it.code > 0x2E7F }
+        val pattern = if (isCjk) Regex(Regex.escape(word))
+                      else Regex("\\b${Regex.escape(word)}\\b")
+        val m = pattern.find(lower) ?: return false
         ranges += m.range; return true
     }
 
