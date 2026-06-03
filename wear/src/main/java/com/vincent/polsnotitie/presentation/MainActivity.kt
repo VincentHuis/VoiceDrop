@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivityResultRegistryOwner
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
@@ -56,7 +57,10 @@ class MainActivity : ComponentActivity() {
         if (intent?.getBooleanExtra("autostart", false) == true) autoStartTrigger.intValue++
         val localizedCtx = applyLanguage(this)
         setContent {
-            CompositionLocalProvider(LocalContext provides localizedCtx) {
+            CompositionLocalProvider(
+                LocalContext provides localizedCtx,
+                LocalActivityResultRegistryOwner provides this
+            ) {
                 MemoScreen(autoStartTrigger = autoStartTrigger.intValue)
             }
         }
