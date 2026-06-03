@@ -49,6 +49,8 @@
     <string name="place_home">Thuis</string>
     <string name="place_work">Werk</string>
     <string name="place_supermarket">Supermarkt</string>
+    <string name="place_friends">Vrienden</string>
+    <string name="place_other_type">Overige</string>
 
     <!-- Memo card -->
     <string name="pin_label">Vastpinnen</string>

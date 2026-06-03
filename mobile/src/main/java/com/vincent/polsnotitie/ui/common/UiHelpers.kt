@@ -9,9 +9,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import com.vincent.polsnotitie.R
 import com.vincent.polsnotitie.data.Category
+import com.vincent.polsnotitie.data.PlaceType
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
+fun PlaceType.displayName(context: Context): String = context.getString(
+    when (this) {
+        PlaceType.THUIS      -> R.string.place_home
+        PlaceType.WERK       -> R.string.place_work
+        PlaceType.SUPERMARKT -> R.string.place_supermarket
+        PlaceType.VRIENDEN   -> R.string.place_friends
+        PlaceType.OVERIGE    -> R.string.place_other_type
+    }
+)
 
 fun Category.displayName(context: Context): String = context.getString(
     when (this) {

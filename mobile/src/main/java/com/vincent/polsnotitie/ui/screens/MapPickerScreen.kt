@@ -25,6 +25,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -47,7 +50,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.vincent.polsnotitie.R
+import com.vincent.polsnotitie.data.PlaceType
 import com.vincent.polsnotitie.location.GeocoderHelper
+import com.vincent.polsnotitie.ui.common.displayName
 import com.vincent.polsnotitie.ui.theme.VibrantCoral
 import com.vincent.polsnotitie.ui.viewmodel.MapPickerViewModel
 import kotlinx.coroutines.launch
@@ -70,6 +75,7 @@ fun MapPickerScreen(
     var searchError by remember { mutableStateOf(false) }
     var name by remember { mutableStateOf("") }
     var nameError by remember { mutableStateOf(false) }
+    var selectedType by remember { mutableStateOf(PlaceType.OVERIGE) }
     val fused = remember { LocationServices.getFusedLocationProviderClient(context) }
     val loaded by viewModel.place.collectAsStateWithLifecycle()
 
@@ -86,6 +92,7 @@ fun MapPickerScreen(
         val place = loaded
         if (place != null && place.id == placeId) {
             if (name.isEmpty()) name = place.name
+            selectedType = place.type
             mapView?.controller?.setCenter(GeoPoint(place.lat, place.lng))
             mapView?.controller?.setZoom(16.0)
         }
@@ -189,6 +196,20 @@ fun MapPickerScreen(
                 label = { Text(stringResource(R.string.place_name_label)) },
                 isError = nameError
             )
+            SingleChoiceSegmentedButtonRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 4.dp)
+            ) {
+                PlaceType.entries.forEachIndexed { index, type ->
+                    SegmentedButton(
+                        selected = selectedType == type,
+                        onClick = { selectedType = type },
+                        shape = SegmentedButtonDefaults.itemShape(index, PlaceType.entries.size),
+                        label = { Text(type.displayName(context), maxLines = 1) }
+                    )
+                }
+            }
             OutlinedTextField(
                 value = query,
                 onValueChange = { query = it; searchError = false },
@@ -251,7 +272,7 @@ fun MapPickerScreen(
                         val address = GeocoderHelper.addressOf(
                             context, center.latitude, center.longitude
                         )
-                        viewModel.save(placeId, trimmed, center.latitude, center.longitude, address, onBack)
+                        viewModel.save(placeId, trimmed, center.latitude, center.longitude, address, selectedType, onBack)
                     }
                 },
                 enabled = mapView != null,

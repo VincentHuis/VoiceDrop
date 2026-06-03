@@ -7,6 +7,7 @@ import com.vincent.polsnotitie.data.Category
 import com.vincent.polsnotitie.data.Memo
 import com.vincent.polsnotitie.data.MemoDatabase
 import com.vincent.polsnotitie.data.Place
+import com.vincent.polsnotitie.data.PlaceType
 import com.vincent.polsnotitie.reminder.ReminderNotifications
 import com.vincent.polsnotitie.reminder.ReminderScheduler
 import com.vincent.polsnotitie.widget.ShoppingWidget
@@ -113,14 +114,15 @@ class MapPickerViewModel(app: Application) : AndroidViewModel(app) {
         lat: Double,
         lng: Double,
         address: String?,
+        type: PlaceType,
         onDone: () -> Unit
     ) = viewModelScope.launch {
         if (existingId != null) {
             dao.update(
-                Place(id = existingId, name = name, lat = lat, lng = lng, address = address)
+                Place(id = existingId, name = name, lat = lat, lng = lng, address = address, type = type)
             )
         } else {
-            dao.insert(Place(name = name, lat = lat, lng = lng, address = address))
+            dao.insert(Place(name = name, lat = lat, lng = lng, address = address, type = type))
         }
         withContext(Dispatchers.IO) {
             com.vincent.polsnotitie.location.GeofenceManager.registerAll(getApplication())

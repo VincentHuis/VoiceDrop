@@ -1,5 +1,6 @@
 package com.vincent.polsnotitie.data
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -11,5 +12,6 @@ data class Place(
     val lat: Double,
     val lng: Double,
     val radius: Float = 100f,
-    val address: String? = null
+    val address: String? = null,
+    @ColumnInfo(defaultValue = "OVERIGE") val type: PlaceType = PlaceType.OVERIGE
 )

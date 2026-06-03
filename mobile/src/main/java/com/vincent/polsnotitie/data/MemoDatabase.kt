@@ -1,14 +1,22 @@
 package com.vincent.polsnotitie.data
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.vincent.polsnotitie.R
 
-@Database(entities = [Memo::class, Place::class], version = 8, exportSchema = true)
+@Database(
+    entities = [Memo::class, Place::class],
+    version = 9,
+    exportSchema = true,
+    autoMigrations = [AutoMigration(from = 8, to = 9)]
+)
+@TypeConverters(PlaceTypeConverter::class)
 abstract class MemoDatabase : RoomDatabase() {
     abstract fun memoDao(): MemoDao
     abstract fun placeDao(): PlaceDao

@@ -7,7 +7,7 @@ import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
 import com.vincent.polsnotitie.data.Category
 import com.vincent.polsnotitie.data.MemoDatabase
-import com.vincent.polsnotitie.language.LanguageProvider
+import com.vincent.polsnotitie.data.PlaceType
 import com.vincent.polsnotitie.reminder.ReminderNotifications
 
 class GeofenceBroadcastReceiver : BroadcastReceiver() {
@@ -24,15 +24,10 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
                 val db = MemoDatabase.get(context)
                 val dao = db.memoDao()
                 val placeDao = db.placeDao()
-                val prefs = context.getSharedPreferences("app_settings", Context.MODE_PRIVATE)
-                val config = LanguageProvider.get(prefs)
-                val shopPatterns = config.placePatterns.shopPatterns
                 for (idStr in placeIds) {
                     val id = idStr.toLongOrNull() ?: continue
                     val place = placeDao.getAllNow().firstOrNull { it.id == id } ?: continue
-                    val lowerName = place.name.lowercase()
-                    val isShop = shopPatterns.any { it.containsMatchIn(lowerName) }
-                    if (isShop) {
+                    if (place.type == PlaceType.SUPERMARKT) {
                         handleSupermarkt(context, dao)
                     }
                     handlePlaceReminders(context, dao, idStr)

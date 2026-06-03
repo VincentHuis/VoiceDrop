@@ -37,6 +37,8 @@
     <string name="place_home">Home</string>
     <string name="place_work">Work</string>
     <string name="place_supermarket">Supermarket</string>
+    <string name="place_friends">Friends</string>
+    <string name="place_other_type">Other</string>
 
     <string name="pin_label">Pin</string>
     <string name="unpin_label">Unpin</string>

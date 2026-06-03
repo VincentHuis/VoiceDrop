@@ -23,6 +23,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -44,6 +45,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.vincent.polsnotitie.R
 import com.vincent.polsnotitie.data.Place
+import com.vincent.polsnotitie.ui.common.displayName
 import com.vincent.polsnotitie.ui.viewmodel.PlacesViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -116,6 +118,7 @@ fun PlacesScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(places, key = { it.id }) { place ->
+                        val context = LocalContext.current
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -138,7 +141,7 @@ fun PlacesScreen(
                                 Column(modifier = Modifier.weight(1f)) {
                                     Text(place.name, style = MaterialTheme.typography.titleMedium)
                                     Text(
-                                        text = place.address ?: stringResource(R.string.place_set),
+                                        text = place.type.displayName(context),
                                         style = MaterialTheme.typography.bodySmall,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
