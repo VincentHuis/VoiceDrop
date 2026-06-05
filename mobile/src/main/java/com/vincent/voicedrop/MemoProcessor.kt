@@ -34,6 +34,12 @@ class MemoProcessor(private val context: Context) {
             }
         }
 
+        // Boodschap indelen bij een winkelschap (alleen via Nano; uit/niet beschikbaar -> Overige).
+        var shoppingGroup: String? = null
+        if (classified.category == Category.BOODSCHAPPEN && GeminiNano.isEnabled(prefs)) {
+            shoppingGroup = GeminiNano.groupGrocery(classified.text)?.name
+        }
+
         if (classified.category == Category.AGENDA) {
             handleAgenda(classified.text)
             return
@@ -60,7 +66,8 @@ class MemoProcessor(private val context: Context) {
         val memo = Memo(
             id = id, text = text, timestamp = timestamp,
             category = classified.category.name,
-            remindAt = remindAt, placeId = placeId, recurrence = recurrence
+            remindAt = remindAt, placeId = placeId, recurrence = recurrence,
+            shoppingGroup = shoppingGroup
         )
         dao.insert(memo)
 
