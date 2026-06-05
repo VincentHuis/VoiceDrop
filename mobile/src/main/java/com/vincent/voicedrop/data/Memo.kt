@@ -21,5 +21,10 @@ data class Memo(
      * Herhalingsregel als "UNIT:interval" (bv. "WEEK:1", "DAY:2", "HOUR:3"); null = eenmalig.
      * [remindAt] is het eerstvolgende moment; bij vuren wordt het volgende moment berekend.
      */
-    val recurrence: String? = null
+    val recurrence: String? = null,
+    /**
+     * Winkelschap-indeling voor boodschappen ([ShoppingGroup]-naam); null = niet ingedeeld
+     * (Nano stond uit/niet beschikbaar) -> wordt in de UI onder Overige getoond.
+     */
+    val shoppingGroup: String? = null
 )
