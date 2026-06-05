@@ -22,7 +22,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Polsnotitie"
+rootProject.name = "Voicedrop"
 include(":mobile")
 include(":wear")
  

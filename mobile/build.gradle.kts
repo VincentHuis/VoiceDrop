@@ -1,11 +1,20 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
 }
 
+// Upload-key gegevens uit gitignored keystore.properties (niet in git).
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties().apply {
+    if (keystorePropertiesFile.exists()) load(FileInputStream(keystorePropertiesFile))
+}
+
 android {
-    namespace = "com.vincent.polsnotitie"
+    namespace = "com.vincent.voicedrop"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -13,7 +22,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.vincent.polsnotitie"
+        applicationId = "com.vincent.voicedrop"
         minSdk = 30
         targetSdk = 36
         versionCode = 1
@@ -22,8 +31,23 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            if (keystorePropertiesFile.exists()) {
+                storeFile = rootProject.file(keystoreProperties["storeFile"] as String)
+                storePassword = keystoreProperties["storePassword"] as String
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["keyPassword"] as String
+            }
+        }
+    }
+
     buildTypes {
         release {
+            // Alleen signen als de keystore er is, zodat de build niet breekt zonder secrets.
+            if (keystorePropertiesFile.exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

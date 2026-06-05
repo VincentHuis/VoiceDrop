@@ -9,6 +9,12 @@
 .cxx
 local.properties
 
+# Signing secrets — NOOIT committen
+keystore.properties
+*.jks
+*.keystore
+/keystore/
+
 # Claude Code
 .claude/
 docs/

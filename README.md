@@ -41,7 +41,7 @@ The app supports Dutch, German and English — both for the UI and for speech re
 :mobile — Phone app (receive, classify, store, display)
 ```
 
-Both share `applicationId = com.vincent.polsnotitie`, which is required for the Wearable Data Layer to connect them.
+Both share `applicationId = com.vincent.voicedrop`, which is required for the Wearable Data Layer to connect them.
 
 ## Build
 
