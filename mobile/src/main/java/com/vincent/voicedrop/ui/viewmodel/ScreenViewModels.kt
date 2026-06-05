@@ -27,11 +27,18 @@ class MemoListViewModel(app: Application) : AndroidViewModel(app) {
     private val dao = MemoDatabase.get(app).memoDao()
     private val placeDao = MemoDatabase.get(app).placeDao()
     val query = MutableStateFlow("")
-    val memos: StateFlow<List<Memo>> = query
+
+    // Notities-tab: Ideeën + Overig (doorzoekbaar archief).
+    private val noteCategories = listOf(Category.IDEEEN.name, Category.OVERIG.name)
+    val notes: StateFlow<List<Memo>> = query
         .flatMapLatest { q ->
-            val excluded = Category.BOODSCHAPPEN.name
-            if (q.isBlank()) dao.getAll(excluded) else dao.search(q, excluded)
+            if (q.isBlank()) dao.byCategories(noteCategories)
+            else dao.searchInCategories(q, noteCategories)
         }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    // Taken-tab: alle TAKEN; opsplitsing in Gepland/Open gebeurt in de UI.
+    val tasks: StateFlow<List<Memo>> = dao.byCategory(Category.TAKEN.name)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     val placesById: StateFlow<Map<Long, Place>> = placeDao.getAll()
@@ -40,7 +47,14 @@ class MemoListViewModel(app: Application) : AndroidViewModel(app) {
 
     fun setQuery(value: String) { query.value = value }
 
-    fun delete(memo: Memo) = viewModelScope.launch { dao.delete(memo) }
+    fun delete(memo: Memo) = viewModelScope.launch {
+        // Geplande herinnering-alarm + eventuele "voeg tijd toe"-notificatie opruimen,
+        // anders vuurt de melding later alsnog terwijl de memo al weg is.
+        val app = getApplication<Application>()
+        ReminderScheduler.cancel(app, memo.id)
+        ReminderNotifications.cancelAddTime(app, memo.id)
+        dao.delete(memo)
+    }
 
     fun togglePin(memo: Memo) = viewModelScope.launch {
         dao.setPinned(memo.id, if (memo.pinnedAt == null) System.currentTimeMillis() else null)

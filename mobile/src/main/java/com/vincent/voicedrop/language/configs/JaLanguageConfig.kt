@@ -21,8 +21,14 @@ object JaLanguageConfig : LanguageConfig {
     override val categoryKeywords = mapOf(
         Category.BOODSCHAPPEN  to listOf("買い物", "かいもの", "スーパー", "買物", "食料品"),
         Category.IDEEEN        to listOf("アイデア", "考え"),
-        Category.TODO          to listOf("タスク", "やること", "todo"),
-        Category.HERINNERINGEN to listOf("リマインダー", "リマインド", "覚え"),
+        Category.TAKEN to listOf(
+            "タスク",
+            "やること",
+            "todo",
+            "リマインダー",
+            "リマインド",
+            "覚え"
+        ),
         Category.AGENDA        to listOf("予定", "スケジュール", "アポ", "カレンダー"),
         Category.OVERIG        to emptyList()
     )

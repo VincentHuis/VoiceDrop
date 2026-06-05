@@ -224,4 +224,72 @@ class ReminderTimeParserTest {
         assertEquals(9, c.get(Calendar.HOUR_OF_DAY))
         assertEquals(30, c.get(Calendar.MINUTE))
     }
+
+    // --- Herhaling (recurrence) ---
+
+    @Test
+    fun elkeWeekdagMetTijd() {
+        // "elke maandag om 20:00" -> WEEK:1, eerste moment a.s. maandag 20:00, "elke" gewist.
+        val r = ReminderTimeParser(NlLanguageConfig).parse(
+            "elke maandag om 20:00 planten water geven",
+            now()
+        )
+        assertEquals("WEEK:1", r.recurrence)
+        assertNotNull(r.remindAt)
+        val c = cal(r.remindAt!!)
+        assertEquals(Calendar.MONDAY, c.get(Calendar.DAY_OF_WEEK))
+        assertEquals(20, c.get(Calendar.HOUR_OF_DAY))
+        assertEquals(0, c.get(Calendar.MINUTE))
+        assertTrue(r.remindAt!! > now())
+        assertEquals("planten water geven", r.text)
+    }
+
+    @Test
+    fun elkeDagMetTijd() {
+        val r = ReminderTimeParser(NlLanguageConfig).parse("elke dag om 8 uur pillen", now())
+        assertEquals("DAY:1", r.recurrence)
+        assertNotNull(r.remindAt)
+        assertEquals("pillen", r.text)
+    }
+
+    @Test
+    fun elkeTweeDagen() {
+        val r = ReminderTimeParser(NlLanguageConfig).parse("elke 2 dagen om 9 uur sporten", now())
+        assertEquals("DAY:2", r.recurrence)
+        assertEquals("sporten", r.text)
+    }
+
+    @Test
+    fun elkeTweeUurZonderAnker() {
+        val n = now()
+        val r = ReminderTimeParser(NlLanguageConfig).parse("elke 2 uur drinken", n)
+        assertEquals("HOUR:2", r.recurrence)
+        // Geen tijd/dag: eerste moment = nu + 2 uur.
+        assertEquals(n + 2 * 3_600_000L, r.remindAt)
+        assertEquals("drinken", r.text)
+    }
+
+    @Test
+    fun dagelijksAdverb() {
+        val r = ReminderTimeParser(NlLanguageConfig).parse("dagelijks om 7 uur opstaan", now())
+        assertEquals("DAY:1", r.recurrence)
+        assertEquals("opstaan", r.text)
+    }
+
+    @Test
+    fun enEveryMondayRecurrence() {
+        val r =
+            ReminderTimeParser(EnLanguageConfig).parse("every monday at 20:00 water plants", now())
+        assertEquals("WEEK:1", r.recurrence)
+        val c = cal(r.remindAt!!)
+        assertEquals(Calendar.MONDAY, c.get(Calendar.DAY_OF_WEEK))
+        assertEquals(20, c.get(Calendar.HOUR_OF_DAY))
+        assertEquals("water plants", r.text)
+    }
+
+    @Test
+    fun geenHerhalingGeeftNull() {
+        val r = ReminderTimeParser(NlLanguageConfig).parse("morgen om 9 uur tandarts", now())
+        assertNull(r.recurrence)
+    }
 }

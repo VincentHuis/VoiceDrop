@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
+    jacoco
 }
 
 // Upload-key gegevens uit gitignored keystore.properties (niet in git).
@@ -43,6 +44,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Nodig zodat unit tests JaCoCo-coverage (.exec) produceren.
+            enableUnitTestCoverage = true
+        }
         release {
             // Alleen signen als de keystore er is, zodat de build niet breekt zonder secrets.
             if (keystorePropertiesFile.exists()) {
@@ -83,6 +88,7 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.mlkit.genai.prompt)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
@@ -92,4 +98,64 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+// --- Code coverage (JaCoCo) ---
+// Scope: alleen de pure-Kotlin kernlogica. Compose-UI, activities, services, receivers,
+// widget, viewmodels en gegenereerde code (Room/Compose) zijn uitgesloten omdat die het
+// Android-framework nodig hebben en niet met gewone unit tests te dekken zijn.
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+val coverageIncludes = listOf(
+    "com/vincent/voicedrop/data/CategoryClassifier*",
+    "com/vincent/voicedrop/data/Category.*",
+    "com/vincent/voicedrop/reminder/ReminderTimeParser*",
+    "com/vincent/voicedrop/reminder/Recurrence*",
+    "com/vincent/voicedrop/reminder/PlaceParser*"
+)
+
+private fun Project.coverageClassDirs() =
+    fileTree("${layout.buildDirectory.get()}/intermediates/built_in_kotlinc/debug/compileDebugKotlin/classes") {
+        include(coverageIncludes)
+    }
+
+private fun Project.coverageExecData() =
+    fileTree(layout.buildDirectory.get()) {
+        include("outputs/unit_test_code_coverage/debugUnitTest/*.exec", "jacoco/*.exec")
+    }
+
+tasks.register<JacocoReport>("jacocoTestReport") {
+    dependsOn("testDebugUnitTest")
+    group = "verification"
+    description = "Coverage-rapport over de kernlogica."
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+    }
+    classDirectories.setFrom(coverageClassDirs())
+    sourceDirectories.setFrom(files("src/main/java"))
+    executionData.setFrom(coverageExecData())
+}
+
+tasks.register<JacocoCoverageVerification>("jacocoCoverageVerification") {
+    dependsOn("testDebugUnitTest")
+    group = "verification"
+    description = "Faalt als de kernlogica onder 80% coverage zakt."
+    classDirectories.setFrom(coverageClassDirs())
+    executionData.setFrom(coverageExecData())
+    violationRules {
+        rule {
+            limit {
+                counter = "INSTRUCTION"
+                minimum = "0.80".toBigDecimal()
+            }
+        }
+    }
+}
+
+// Laat de standaard `check` ook de coverage-drempel afdwingen.
+tasks.named("check") {
+    dependsOn("jacocoCoverageVerification")
 }

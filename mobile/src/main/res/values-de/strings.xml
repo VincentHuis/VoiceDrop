@@ -8,6 +8,9 @@
     <string name="search_hint">Suchen…</string>
     <string name="record_label">Aufnehmen</string>
     <string name="speech_prompt">Notiz einsprechen</string>
+    <string name="type_label">Tippen</string>
+    <string name="type_prompt">Notiz eingeben</string>
+    <string name="type_save">Hinzufügen</string>
     <string name="delete_label">Löschen</string>
     <string name="copy_label">Kopieren</string>
     <string name="share_label">Teilen</string>
@@ -23,6 +26,10 @@
     <string name="place_set">Eingestellt</string>
     <string name="place_not_set">Nicht eingestellt</string>
     <string name="allow_location">Standort immer erlauben</string>
+    <string name="bg_location_disclosure_title">Standort im Hintergrund</string>
+    <string name="bg_location_disclosure_body">VoiceDrop verwendet deinen Standort, auch wenn die App geschlossen ist oder nicht verwendet wird, um dich zu erinnern, wenn du an einem von dir festgelegten Ort ankommst (z. B. Zuhause, Arbeit oder Supermarkt). Dein Standort bleibt auf deinem Gerät und wird nirgendwohin gesendet.</string>
+    <string name="bg_location_disclosure_accept">Akzeptieren</string>
+    <string name="bg_location_disclosure_decline">Jetzt nicht</string>
     <string name="pick_place">%s auswählen</string>
     <string name="current_location">Aktueller Standort</string>
     <string name="address_hint">Adresse suchen…</string>
@@ -33,7 +40,13 @@
     <string name="category_ideas">Ideen</string>
     <string name="category_reminders">Erinnerungen</string>
     <string name="category_agenda">Termin</string>
+    <string name="category_taken">Aufgaben</string>
     <string name="category_other">Sonstiges</string>
+    <string name="nav_notes">Notizen</string>
+    <string name="nav_tasks">Aufgaben</string>
+    <string name="tasks_planned">Geplant</string>
+    <string name="tasks_open">Offen</string>
+    <string name="no_tasks">Noch keine Aufgaben</string>
     <string name="place_home">Zuhause</string>
     <string name="place_work">Arbeit</string>
     <string name="place_supermarket">Supermarkt</string>
@@ -68,7 +81,7 @@
     <string name="onboarding_page1_title">Einsprechen, fertig</string>
     <string name="onboarding_page1_body">Sprich eine Notiz über die Kachel auf deiner Uhr ein oder tippe auf die Mikrofon-Schaltfläche in der App. Die Notiz wird automatisch erkannt und verarbeitet.</string>
     <string name="onboarding_page2_title">Automatisch sortiert</string>
-    <string name="onboarding_page2_body">Beginne mit einem Stichwort und die App weiß, was es ist. "Einkaufen Milch" landet auf deiner Einkaufsliste. "Erinnerung morgen Zahnarzt" plant eine Erinnerung.</string>
+    <string name="onboarding_page2_body">Beginne mit einem Stichwort und die App weiß, was es ist. \"Einkaufen Milch\" landet auf deiner Einkaufsliste. \"Erinnerung morgen Zahnarzt\" plant eine Erinnerung.</string>
     <string name="onboarding_page3_title">Erinnerung nach Zeit oder Ort</string>
     <string name="onboarding_page3_body">Die App kann dich zu einer bestimmten Zeit oder beim Ankommen an einem Ort erinnern — zu Hause, bei der Arbeit oder im Supermarkt. Deine Einkaufsliste erscheint automatisch, wenn du einen Supermarkt betrittst. Dafür sind einige Berechtigungen erforderlich.</string>
     <string name="onboarding_perm_location">Standort</string>
@@ -82,4 +95,16 @@
     <string name="onboarding_perm_calendar_denied">Kalendereinträge werden nicht automatisch gespeichert.</string>
     <string name="onboarding_allow">Erlauben</string>
     <string name="onboarding_open_settings">Einstellungen öffnen</string>
+
+    <!-- KI-Klassifizierung (Gemini Nano) -->
+    <string name="ai_title">Smarte KI</string>
+    <string name="ai_explanation">Läuft auf Gemini Nano, vollständig lokal und kostenlos auf deinem Gerät.</string>
+    <string name="ai_checking">Modell wird vorbereitet…</string>
+    <string name="ai_unsupported">Auf diesem Gerät nicht verfügbar</string>
+    <string name="ai_downloadable">KI-Modell noch nicht heruntergeladen</string>
+    <string name="ai_download_button">Modell herunterladen</string>
+    <string name="ai_downloading">Modell wird heruntergeladen…</string>
+    <string name="ai_ready">KI-Modell bereit</string>
+    <string name="ai_use_fallback">KI-Modell kostenlos nutzen</string>
+    <string name="ai_error">Fehler: %s</string>
 </resources>

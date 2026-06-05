@@ -20,11 +20,12 @@ class CategoryClassifierTest {
     }
 
     @Test
-    fun todoOneOrTwoWords() {
-        assertCategory("to do de auto wassen", Category.TODO, "de auto wassen")
-        assertCategory("todo bellen", Category.TODO, "bellen")
-        assertCategory("taak factuur sturen", Category.TODO, "factuur sturen")
-        assertCategory("taken opruimen", Category.TODO, "opruimen")
+    fun takenOneOrTwoWords() {
+        // To-do en Herinneringen zijn samengevoegd tot TAKEN.
+        assertCategory("to do de auto wassen", Category.TAKEN, "de auto wassen")
+        assertCategory("todo bellen", Category.TAKEN, "bellen")
+        assertCategory("taak factuur sturen", Category.TAKEN, "factuur sturen")
+        assertCategory("taken opruimen", Category.TAKEN, "opruimen")
     }
 
     @Test
@@ -35,9 +36,9 @@ class CategoryClassifierTest {
 
     @Test
     fun herinneringenFuzzy() {
-        assertCategory("herinnering tandarts", Category.HERINNERINGEN, "tandarts")
-        assertCategory("herinneringen verjaardag", Category.HERINNERINGEN, "verjaardag")
-        assertCategory("herinner mij aan de melk", Category.HERINNERINGEN, "mij aan de melk")
+        assertCategory("herinnering tandarts", Category.TAKEN, "tandarts")
+        assertCategory("herinneringen verjaardag", Category.TAKEN, "verjaardag")
+        assertCategory("herinner mij aan de melk", Category.TAKEN, "mij aan de melk")
     }
 
     @Test
@@ -61,8 +62,8 @@ class CategoryClassifierTest {
         val clf = CategoryClassifier()
         assertEquals(Category.BOODSCHAPPEN, clf.classify("Einkaufen Milch").category)
         assertEquals(Category.IDEEEN,        clf.classify("Idee neue App").category)
-        assertEquals(Category.TODO,          clf.classify("Aufgabe Rechnung schicken").category)
-        assertEquals(Category.HERINNERINGEN, clf.classify("Erinnerung Zahnarzt").category)
+        assertEquals(Category.TAKEN, clf.classify("Aufgabe Rechnung schicken").category)
+        assertEquals(Category.TAKEN, clf.classify("Erinnerung Zahnarzt").category)
     }
 
     @Test
@@ -70,7 +71,7 @@ class CategoryClassifierTest {
         val clf = CategoryClassifier()
         assertEquals(Category.BOODSCHAPPEN, clf.classify("Groceries milk and bread").category)
         assertEquals(Category.IDEEEN,        clf.classify("Idea new feature").category)
-        assertEquals(Category.TODO,          clf.classify("Task send invoice").category)
-        assertEquals(Category.HERINNERINGEN, clf.classify("Reminder dentist").category)
+        assertEquals(Category.TAKEN, clf.classify("Task send invoice").category)
+        assertEquals(Category.TAKEN, clf.classify("Reminder dentist").category)
     }
 }

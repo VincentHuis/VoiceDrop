@@ -25,23 +25,16 @@ class CategoryClassifier {
             "아이디어", "생각",                                         // KO
             "アイデア", "考え"                                          // JA
         ),
-        Category.TODO          to listOf(
-            "todo", "to do", "to-do", "taak", "taken",                 // NL
-            "aufgabe", "aufgaben",                                      // DE
-            "task", "tasks",                                            // EN
-            "tache", "taches", "faire",                                 // FR
-            "tarea", "tareas", "pendiente",                             // ES
-            "할일", "할 일", "과제",                                    // KO
-            "タスク", "やること"                                        // JA
-        ),
-        Category.HERINNERINGEN to listOf(
-            "herinnering", "herinneringen", "herinner",                 // NL
-            "erinnerung", "erinnerungen", "erinnere",                   // DE
-            "reminder", "reminders", "remind",                          // EN
-            "rappel", "rappels", "rappelle",                            // FR
-            "recordatorio", "recordar", "recuerda",                     // ES
-            "알림", "리마인더", "기억",                                 // KO
-            "リマインダー", "リマインド", "覚え"                        // JA
+        // TAKEN = samengevoegde To-do + Herinneringen.
+        Category.TAKEN to listOf(
+            "todo", "to do", "to-do", "taak", "taken",                 // NL (to-do)
+            "herinnering", "herinneringen", "herinner",                 // NL (herinnering)
+            "aufgabe", "aufgaben", "erinnerung", "erinnerungen", "erinnere", // DE
+            "task", "tasks", "reminder", "reminders", "remind",         // EN
+            "tache", "taches", "faire", "rappel", "rappels", "rappelle", // FR
+            "tarea", "tareas", "pendiente", "recordatorio", "recordar", "recuerda", // ES
+            "할일", "할 일", "과제", "알림", "리마인더", "기억",         // KO
+            "タスク", "やること", "リマインダー", "リマインド", "覚え"   // JA
         ),
         Category.AGENDA        to listOf(
             "agenda", "afspraak", "kalender",                           // NL

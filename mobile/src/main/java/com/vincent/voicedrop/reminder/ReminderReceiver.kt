@@ -17,6 +17,25 @@ class ReminderReceiver : BroadcastReceiver() {
         }
 
         ReminderNotifications.notifyReminder(context, memoId, text)
+        rescheduleIfRecurring(context, memoId, text)
+    }
+
+    /** Herhalende taak: plan het volgende moment en bewaar de nieuwe tijd. */
+    private fun rescheduleIfRecurring(context: Context, memoId: String, text: String) {
+        val pending = goAsync()
+        Thread {
+            try {
+                val dao = MemoDatabase.get(context).memoDao()
+                val memo = dao.getByIdNow(memoId) ?: return@Thread
+                val rule = memo.recurrence ?: return@Thread
+                val now = System.currentTimeMillis()
+                val nextAt = Recurrence.nextAfter(memo.remindAt ?: now, rule, now)
+                dao.setRemindAtNow(memoId, nextAt)
+                ReminderScheduler.scheduleAt(context, memoId, text, nextAt)
+            } finally {
+                pending.finish()
+            }
+        }.start()
     }
 
     /** Sluit de melding, plant de herinnering [minutes] later opnieuw en bewaart de nieuwe tijd. */

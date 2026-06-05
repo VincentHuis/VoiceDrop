@@ -15,13 +15,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import com.vincent.voicedrop.language.withAppLanguage
 import com.vincent.voicedrop.location.GeofenceManager
+import com.vincent.voicedrop.ui.screens.HomeScreen
 import com.vincent.voicedrop.ui.screens.MapPickerScreen
-import com.vincent.voicedrop.ui.screens.MemoListScreen
 import com.vincent.voicedrop.ui.screens.OnboardingScreen
 import com.vincent.voicedrop.ui.screens.PlacesScreen
 import com.vincent.voicedrop.ui.screens.ReminderTimeScreen
 import com.vincent.voicedrop.ui.screens.SettingsScreen
-import com.vincent.voicedrop.ui.screens.ShoppingScreen
 import com.vincent.voicedrop.ui.theme.VoicedropTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -63,7 +62,6 @@ fun AppRoot(startInShopping: Boolean = false, startTimeForMemoId: String? = null
         withContext(Dispatchers.IO) { GeofenceManager.registerAll(context) }
     }
 
-    var showShopping by rememberSaveable { mutableStateOf(startInShopping) }
     var timeMemoId by rememberSaveable { mutableStateOf(startTimeForMemoId) }
     var showSettings by rememberSaveable { mutableStateOf(false) }
     var showPlaces by rememberSaveable { mutableStateOf(false) }
@@ -87,9 +85,8 @@ fun AppRoot(startInShopping: Boolean = false, startTimeForMemoId: String? = null
             memoId = timeMemoId!!,
             onDone = { timeMemoId = null }
         )
-        showShopping -> ShoppingScreen(onBack = { showShopping = false })
-        else -> MemoListScreen(
-            onOpenShopping = { showShopping = true },
+        else -> HomeScreen(
+            startInShopping = startInShopping,
             onOpenSettings = { showSettings = true },
             onSetTime = { id -> timeMemoId = id }
         )

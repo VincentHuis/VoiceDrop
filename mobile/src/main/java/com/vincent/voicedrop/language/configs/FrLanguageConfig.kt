@@ -21,8 +21,16 @@ object FrLanguageConfig : LanguageConfig {
     override val categoryKeywords = mapOf(
         Category.BOODSCHAPPEN  to listOf("courses", "course", "epicerie", "supermarche", "commissions"),
         Category.IDEEEN        to listOf("idee", "idees"),
-        Category.TODO          to listOf("tache", "taches", "todo", "to-do", "faire"),
-        Category.HERINNERINGEN to listOf("rappel", "rappels", "rappelle"),
+        Category.TAKEN to listOf(
+            "tache",
+            "taches",
+            "todo",
+            "to-do",
+            "faire",
+            "rappel",
+            "rappels",
+            "rappelle"
+        ),
         Category.AGENDA        to listOf("agenda", "rendez-vous", "rdv", "calendrier"),
         Category.OVERIG        to emptyList()
     )

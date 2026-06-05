@@ -24,8 +24,7 @@ object KoLanguageConfig : LanguageConfig {
     override val categoryKeywords = mapOf(
         Category.BOODSCHAPPEN  to listOf("쇼핑", "장보기", "마트", "슈퍼마켓", "슈퍼"),
         Category.IDEEEN        to listOf("아이디어", "생각"),
-        Category.TODO          to listOf("할일", "할 일", "과제", "todo"),
-        Category.HERINNERINGEN to listOf("알림", "리마인더", "기억"),
+        Category.TAKEN to listOf("할일", "할 일", "과제", "todo", "알림", "리마인더", "기억"),
         Category.AGENDA        to listOf("일정", "약속", "캘린더"),
         Category.OVERIG        to emptyList()
     )

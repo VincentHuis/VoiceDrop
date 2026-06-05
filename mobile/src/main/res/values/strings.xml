@@ -10,6 +10,9 @@
     <string name="search_hint">Zoeken…</string>
     <string name="record_label">Inspreken</string>
     <string name="speech_prompt">Spreek je notitie in</string>
+    <string name="type_label">Typen</string>
+    <string name="type_prompt">Typ je notitie</string>
+    <string name="type_save">Toevoegen</string>
     <string name="delete_label">Verwijderen</string>
     <string name="copy_label">Kopiëren</string>
     <string name="share_label">Delen</string>
@@ -30,6 +33,12 @@
     <string name="place_not_set">Niet ingesteld</string>
     <string name="allow_location">Locatie altijd toestaan</string>
 
+    <!-- Prominent disclosure achtergrond-locatie (vereist door Google Play vóór de permissie) -->
+    <string name="bg_location_disclosure_title">Locatie op de achtergrond</string>
+    <string name="bg_location_disclosure_body">VoiceDrop gebruikt je locatie, óók als de app gesloten is of niet in gebruik, om je te herinneren wanneer je aankomt op een ingestelde plek (zoals thuis, werk of de supermarkt). Je locatie blijft op je apparaat en wordt nergens naartoe gestuurd.</string>
+    <string name="bg_location_disclosure_accept">Accepteren</string>
+    <string name="bg_location_disclosure_decline">Niet nu</string>
+
     <!-- Map picker screen -->
     <string name="pick_place">Kies %s</string>
     <string name="current_location">Huidige locatie</string>
@@ -43,7 +52,15 @@
     <string name="category_ideas">Ideeën</string>
     <string name="category_reminders">Herinneringen</string>
     <string name="category_agenda">Agenda</string>
+    <string name="category_taken">Taken</string>
     <string name="category_other">Overig</string>
+
+    <!-- Navigatie + Taken-scherm -->
+    <string name="nav_notes">Notities</string>
+    <string name="nav_tasks">Taken</string>
+    <string name="tasks_planned">Gepland</string>
+    <string name="tasks_open">Open</string>
+    <string name="no_tasks">Nog geen taken</string>
 
     <!-- Place type names -->
     <string name="place_home">Thuis</string>
@@ -86,7 +103,7 @@
     <string name="onboarding_page1_title">Spreek, en klaar</string>
     <string name="onboarding_page1_body">Spreek een notitie in via de Tile op je horloge, of tik op de microfoonknop in de app. De notitie wordt automatisch herkend en verwerkt.</string>
     <string name="onboarding_page2_title">Automatisch gesorteerd</string>
-    <string name="onboarding_page2_body">Begin met een trefwoord en de app weet wat het is. "Boodschappen melk" belandt in je boodschappenlijst. "Reminder morgen tandarts" plant een herinnering.</string>
+    <string name="onboarding_page2_body">Begin met een trefwoord en de app weet wat het is. \"Boodschappen melk\" belandt in je boodschappenlijst. \"Reminder morgen tandarts\" plant een herinnering.</string>
     <string name="onboarding_page3_title">Herinnering op tijd of plek</string>
     <string name="onboarding_page3_body">De app kan je herinneren op een tijdstip of als je ergens aankomt — thuis, op werk of in de supermarkt. Je boodschappenlijst verschijnt automatisch als je een supermarkt binnenloopt. Hiervoor zijn een paar rechten nodig.</string>
     <string name="onboarding_perm_location">Locatie</string>
@@ -100,4 +117,16 @@
     <string name="onboarding_perm_calendar_denied">Agenda-items worden niet automatisch opgeslagen.</string>
     <string name="onboarding_allow">Toestaan</string>
     <string name="onboarding_open_settings">Instellingen openen</string>
+
+    <!-- AI-classificatie (Gemini Nano) -->
+    <string name="ai_title">Slimme Ai</string>
+    <string name="ai_explanation">Draait op Gemini Nano, volledig lokaal en gratis op je toestel.</string>
+    <string name="ai_checking">Model voorbereiden…</string>
+    <string name="ai_unsupported">Niet beschikbaar op dit toestel</string>
+    <string name="ai_downloadable">AI-model nog niet gedownload</string>
+    <string name="ai_download_button">Model downloaden</string>
+    <string name="ai_downloading">Model wordt gedownload…</string>
+    <string name="ai_ready">AI-model gereed</string>
+    <string name="ai_use_fallback">Gebruik Ai-model gratis</string>
+    <string name="ai_error">Fout: %s</string>
 </resources>

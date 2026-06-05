@@ -5,7 +5,7 @@ import java.util.Calendar
 
 class ReminderTimeParser(private val config: LanguageConfig) {
 
-    data class Result(val remindAt: Long?, val text: String)
+    data class Result(val remindAt: Long?, val text: String, val recurrence: String? = null)
 
     private enum class Period { MORNING, AFTERNOON, EVENING, NIGHT }
     private data class TimeMatch(val hour: Int, val minute: Int, val ambiguous: Boolean)
@@ -13,21 +13,31 @@ class ReminderTimeParser(private val config: LanguageConfig) {
     private val tc = config.timeParser
 
     fun parse(raw: String, now: Long = System.currentTimeMillis()): Result {
-        val lower = raw.lowercase()
+        val rawLower = raw.lowercase()
         val ranges = mutableListOf<IntRange>()
+
+        // 0) Herhaling ("elke maandag", "elke 2 dagen", "dagelijks"). Voegt de te wissen
+        //    woorden toe aan `ranges`; weekdagen blijven staan om het eerste moment te ankeren.
+        val recurrence = parseRecurrence(rawLower, ranges)
+        // Maskeer de herhaling-woorden (zelfde lengte → indices blijven kloppen) zodat bv.
+        // "uur" in "elke 2 uur" niet alsnog als tijdstip wordt gelezen.
+        val lower = if (ranges.isEmpty()) rawLower else maskRanges(rawLower, ranges)
 
         // 1) Relative: "over een half uur", "in einer stunde", "in one hour"
         tc.relativeHalfHourPattern.find(lower)?.let { m ->
-            return Result(now + 30 * 60_000L, clean(raw, listOf(m.range)))
+            ranges.add(m.range)
+            return Result(now + 30 * 60_000L, clean(raw, ranges), recurrence)
         }
         tc.relativeQuarterPattern.find(lower)?.let { m ->
             val n = toInt(m.groupValues[1]) ?: return@let
-            return Result(now + n * 15 * 60_000L, clean(raw, listOf(m.range)))
+            ranges.add(m.range)
+            return Result(now + n * 15 * 60_000L, clean(raw, ranges), recurrence)
         }
         tc.relativeUnitPattern.find(lower)?.let { m ->
             val n = toInt(m.groupValues[1]) ?: return@let
             val unitMs = tc.unitMultipliers[m.groupValues[2]] ?: return@let
-            return Result(now + n * unitMs, clean(raw, listOf(m.range)))
+            ranges.add(m.range)
+            return Result(now + n * unitMs, clean(raw, ranges), recurrence)
         }
 
         val cal = Calendar.getInstance().apply {
@@ -83,14 +93,44 @@ class ReminderTimeParser(private val config: LanguageConfig) {
             if (!dayFound) { dayFound = true; pushIfPast = true }
         }
 
-        if (!dayFound && !timeFound) return Result(null, raw)
+        if (!dayFound && !timeFound) {
+            // Geen tijd/dag, maar wel herhaling (bv. "elke 2 uur"): eerste moment = nu + interval.
+            return if (recurrence != null) Result(
+                Recurrence.next(now, recurrence),
+                clean(raw, ranges),
+                recurrence
+            )
+            else Result(null, raw)
+        }
 
         if (cal.timeInMillis <= now && pushIfPast) {
             val step = if (timeFound && weekdayMatched) 7 else 1
             cal.add(Calendar.DAY_OF_YEAR, step)
         }
 
-        return Result(cal.timeInMillis, clean(raw, ranges))
+        return Result(cal.timeInMillis, clean(raw, ranges), recurrence)
+    }
+
+    /**
+     * Herkent een herhalingsregel en voegt de te wissen woordbereiken toe aan [ranges].
+     * Bij "elke <weekdag>" wordt alleen het bijwoord ("elke") gewist; de weekdag blijft staan
+     * zodat de bestaande dag/tijd-logica het eerste moment kan bepalen.
+     */
+    private fun parseRecurrence(lower: String, ranges: MutableList<IntRange>): String? {
+        for ((word, rule) in tc.recurringAdverbs) {
+            if (contains(lower, word, ranges)) return rule
+        }
+        tc.recurringUnitPattern?.find(lower)?.let { m ->
+            val unit = tc.recurringUnits[m.groupValues[2]] ?: return@let
+            val n = if (m.groupValues[1].isBlank()) 1 else (toInt(m.groupValues[1]) ?: 1)
+            ranges += m.range
+            return "$unit:$n"
+        }
+        tc.recurringWeekdayPattern?.find(lower)?.let { m ->
+            m.groups[1]?.range?.let { ranges += it }
+            return "WEEK:1"
+        }
+        return null
     }
 
     private fun detectPeriod(lower: String, ranges: MutableList<IntRange>): Pair<Period?, Boolean> {
@@ -177,6 +217,13 @@ class ReminderTimeParser(private val config: LanguageConfig) {
     private fun containsAny(lower: String, words: List<String>, ranges: MutableList<IntRange>): Boolean {
         for (word in words) { if (contains(lower, word, ranges)) return true }
         return false
+    }
+
+    /** Vervangt de tekens in [ranges] door spaties (zelfde lengte, indices blijven kloppen). */
+    private fun maskRanges(s: String, ranges: List<IntRange>): String {
+        val sb = StringBuilder(s)
+        for (r in ranges) for (i in r) if (i in sb.indices) sb.setCharAt(i, ' ')
+        return sb.toString()
     }
 
     private fun clean(raw: String, ranges: List<IntRange>): String {

@@ -8,6 +8,9 @@
     <string name="search_hint">Buscar…</string>
     <string name="record_label">Dictar</string>
     <string name="speech_prompt">Dicta tu nota</string>
+    <string name="type_label">Escribir</string>
+    <string name="type_prompt">Escribe tu nota</string>
+    <string name="type_save">Añadir</string>
     <string name="delete_label">Eliminar</string>
     <string name="copy_label">Copiar</string>
     <string name="share_label">Compartir</string>
@@ -23,6 +26,10 @@
     <string name="place_set">Configurado</string>
     <string name="place_not_set">No configurado</string>
     <string name="allow_location">Permitir ubicación siempre</string>
+    <string name="bg_location_disclosure_title">Ubicación en segundo plano</string>
+    <string name="bg_location_disclosure_body">VoiceDrop usa tu ubicación, incluso cuando la app está cerrada o no se está usando, para recordarte cuando llegues a un lugar que hayas configurado (como casa, trabajo o el supermercado). Tu ubicación permanece en tu dispositivo y nunca se envía a ningún sitio.</string>
+    <string name="bg_location_disclosure_accept">Aceptar</string>
+    <string name="bg_location_disclosure_decline">Ahora no</string>
     <string name="pick_place">Elegir %s</string>
     <string name="current_location">Ubicación actual</string>
     <string name="address_hint">Buscar dirección…</string>
@@ -33,7 +40,13 @@
     <string name="category_ideas">Ideas</string>
     <string name="category_reminders">Recordatorios</string>
     <string name="category_agenda">Agenda</string>
+    <string name="category_taken">Tareas</string>
     <string name="category_other">Otro</string>
+    <string name="nav_notes">Notas</string>
+    <string name="nav_tasks">Tareas</string>
+    <string name="tasks_planned">Planificado</string>
+    <string name="tasks_open">Pendiente</string>
+    <string name="no_tasks">Aún no hay tareas</string>
     <string name="place_home">Casa</string>
     <string name="place_work">Trabajo</string>
     <string name="place_supermarket">Supermercado</string>
@@ -82,4 +95,16 @@
     <string name="onboarding_perm_calendar_denied">Las entradas del calendario no se guardarán automáticamente.</string>
     <string name="onboarding_allow">Permitir</string>
     <string name="onboarding_open_settings">Abrir ajustes</string>
+
+    <!-- Clasificación con IA (Gemini Nano) -->
+    <string name="ai_title">IA inteligente</string>
+    <string name="ai_explanation">Funciona con Gemini Nano, totalmente local y gratis en tu dispositivo.</string>
+    <string name="ai_checking">Preparando el modelo…</string>
+    <string name="ai_unsupported">No disponible en este dispositivo</string>
+    <string name="ai_downloadable">Modelo de IA aún no descargado</string>
+    <string name="ai_download_button">Descargar modelo</string>
+    <string name="ai_downloading">Descargando el modelo…</string>
+    <string name="ai_ready">Modelo de IA listo</string>
+    <string name="ai_use_fallback">Usa el modelo de IA gratis</string>
+    <string name="ai_error">Error: %s</string>
 </resources>

@@ -21,8 +21,16 @@ object EnLanguageConfig : LanguageConfig {
     override val categoryKeywords = mapOf(
         Category.BOODSCHAPPEN  to listOf("groceries", "grocery", "shopping", "supermarket"),
         Category.IDEEEN        to listOf("idea", "ideas"),
-        Category.TODO          to listOf("todo", "to do", "to-do", "task", "tasks"),
-        Category.HERINNERINGEN to listOf("reminder", "reminders", "remind"),
+        Category.TAKEN to listOf(
+            "todo",
+            "to do",
+            "to-do",
+            "task",
+            "tasks",
+            "reminder",
+            "reminders",
+            "remind"
+        ),
         Category.AGENDA        to listOf("appointment", "calendar", "agenda"),
         Category.OVERIG        to emptyList()
     )
@@ -78,6 +86,16 @@ object EnLanguageConfig : LanguageConfig {
         quarterOverPattern = Regex("\\bquarter\\s+(?:past|after)\\s+($numAlt|\\d{1,2})\\b"),
         quarterToPattern   = Regex("\\bquarter\\s+(?:to|before)\\s+($numAlt|\\d{1,2})\\b"),
         hourWordPattern    = Regex("\\b(?:at\\s+)?(\\d{1,2}|$numAlt)\\s*o'?clock\\b"),
-        atHourPattern      = Regex("\\bat\\s+(\\d{1,2}|$numAlt)\\b")
+        atHourPattern = Regex("\\bat\\s+(\\d{1,2}|$numAlt)\\b"),
+        recurringUnits = mapOf(
+            "day" to "DAY", "days" to "DAY",
+            "week" to "WEEK", "weeks" to "WEEK",
+            "month" to "MONTH", "months" to "MONTH",
+            "hour" to "HOUR", "hours" to "HOUR",
+            "minute" to "MIN", "minutes" to "MIN", "min" to "MIN"
+        ),
+        recurringUnitPattern = Regex("\\b(?:every|each)\\s+(?:(\\d+|$numAlt)\\s+)?(days?|weeks?|months?|hours?|minutes?|min)\\b"),
+        recurringWeekdayPattern = Regex("\\b(every|each)\\s+(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\\b"),
+        recurringAdverbs = mapOf("daily" to "DAY:1", "weekly" to "WEEK:1", "monthly" to "MONTH:1")
     )
 }

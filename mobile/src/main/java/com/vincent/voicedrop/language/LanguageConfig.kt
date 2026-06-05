@@ -1,7 +1,6 @@
 package com.vincent.voicedrop.language
 
 import com.vincent.voicedrop.data.Category
-import java.util.Calendar
 
 interface LanguageConfig {
     val language: AppLanguage
@@ -36,5 +35,10 @@ data class TimeParserConfig(
     val quarterOverPattern: Regex,               // group(1) = hour
     val quarterToPattern: Regex,                 // group(1) = hour
     val hourWordPattern: Regex,                  // group(1) = hour (e.g. "9 uur")
-    val atHourPattern: Regex                     // group(1) = hour (e.g. "om 9")
+    val atHourPattern: Regex,                    // group(1) = hour (e.g. "om 9")
+    // --- Herhaling (recurrence). Leeg/null = taal ondersteunt (nog) geen herhaling. ---
+    val recurringUnits: Map<String, String> = emptyMap(),   // unit-woord -> "DAY"/"WEEK"/"MONTH"/"HOUR"/"MIN"
+    val recurringUnitPattern: Regex? = null,                // group(1)=optioneel aantal, group(2)=unit-woord
+    val recurringWeekdayPattern: Regex? = null,             // group(1)=bijwoord (wordt gestript), group(2)=weekdag (blijft staan)
+    val recurringAdverbs: Map<String, String> = emptyMap()  // "dagelijks" -> "DAY:1"
 )

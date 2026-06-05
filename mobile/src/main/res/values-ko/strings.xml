@@ -8,6 +8,9 @@
     <string name="search_hint">검색…</string>
     <string name="record_label">녹음</string>
     <string name="speech_prompt">메모를 말해 주세요</string>
+    <string name="type_label">입력</string>
+    <string name="type_prompt">메모 입력</string>
+    <string name="type_save">추가</string>
     <string name="delete_label">삭제</string>
     <string name="copy_label">복사</string>
     <string name="share_label">공유</string>
@@ -23,6 +26,10 @@
     <string name="place_set">설정됨</string>
     <string name="place_not_set">미설정</string>
     <string name="allow_location">항상 위치 허용</string>
+    <string name="bg_location_disclosure_title">백그라운드 위치</string>
+    <string name="bg_location_disclosure_body">VoiceDrop은 앱이 닫혀 있거나 사용 중이 아닐 때에도 위치 정보를 사용하여 설정한 장소(집, 직장, 슈퍼마켓 등)에 도착하면 알려줍니다. 위치 정보는 기기에 저장되며 어디에도 전송되지 않습니다.</string>
+    <string name="bg_location_disclosure_accept">동의</string>
+    <string name="bg_location_disclosure_decline">나중에</string>
     <string name="pick_place">%s 선택</string>
     <string name="current_location">현재 위치</string>
     <string name="address_hint">주소 검색…</string>
@@ -33,7 +40,13 @@
     <string name="category_ideas">아이디어</string>
     <string name="category_reminders">알림</string>
     <string name="category_agenda">일정</string>
+    <string name="category_taken">할 일</string>
     <string name="category_other">기타</string>
+    <string name="nav_notes">메모</string>
+    <string name="nav_tasks">할 일</string>
+    <string name="tasks_planned">예정</string>
+    <string name="tasks_open">남은 일</string>
+    <string name="no_tasks">아직 할 일이 없습니다</string>
     <string name="place_home">집</string>
     <string name="place_work">직장</string>
     <string name="place_supermarket">슈퍼마켓</string>
@@ -68,7 +81,7 @@
     <string name="onboarding_page1_title">말하면 끝</string>
     <string name="onboarding_page1_body">시계의 타일을 통해 메모를 말하거나 앱의 마이크 버튼을 탭하세요. 메모는 자동으로 인식되어 처리됩니다.</string>
     <string name="onboarding_page2_title">자동으로 분류</string>
-    <string name="onboarding_page2_body">키워드로 시작하면 앱이 내용을 파악합니다. "장보기 우유"는 장보기 목록에 들어갑니다. "알림 내일 치과"는 알림을 설정합니다.</string>
+    <string name="onboarding_page2_body">키워드로 시작하면 앱이 내용을 파악합니다. \"장보기 우유\"는 장보기 목록에 들어갑니다. \"알림 내일 치과\"는 알림을 설정합니다.</string>
     <string name="onboarding_page3_title">시간 또는 장소 알림</string>
     <string name="onboarding_page3_body">앱이 특정 시간이나 도착 시 알림을 드립니다 — 집, 직장 또는 마트에서. 슈퍼마켓에 들어가면 장보기 목록이 자동으로 표시됩니다. 몇 가지 권한이 필요합니다.</string>
     <string name="onboarding_perm_location">위치</string>
@@ -82,4 +95,16 @@
     <string name="onboarding_perm_calendar_denied">캘린더 항목이 자동으로 저장되지 않습니다.</string>
     <string name="onboarding_allow">허용</string>
     <string name="onboarding_open_settings">설정 열기</string>
+
+    <!-- AI 분류 (Gemini Nano) -->
+    <string name="ai_title">스마트 AI</string>
+    <string name="ai_explanation">Gemini Nano로 작동하며, 기기에서 완전히 로컬로 무료로 사용할 수 있습니다.</string>
+    <string name="ai_checking">모델 준비 중…</string>
+    <string name="ai_unsupported">이 기기에서는 사용할 수 없습니다</string>
+    <string name="ai_downloadable">AI 모델이 아직 다운로드되지 않았습니다</string>
+    <string name="ai_download_button">모델 다운로드</string>
+    <string name="ai_downloading">모델 다운로드 중…</string>
+    <string name="ai_ready">AI 모델 준비 완료</string>
+    <string name="ai_use_fallback">AI 모델 무료로 사용</string>
+    <string name="ai_error">오류: %s</string>
 </resources>

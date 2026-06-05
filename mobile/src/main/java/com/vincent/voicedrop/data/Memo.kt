@@ -16,5 +16,10 @@ data class Memo(
     /** Plek (Place.id als string) waarbij een herinnering moet afgaan; null = geen locatie. */
     val placeId: String? = null,
     /** Tijdstip waarop memo vastgepind is; null = niet vastgepind. */
-    val pinnedAt: Long? = null
+    val pinnedAt: Long? = null,
+    /**
+     * Herhalingsregel als "UNIT:interval" (bv. "WEEK:1", "DAY:2", "HOUR:3"); null = eenmalig.
+     * [remindAt] is het eerstvolgende moment; bij vuren wordt het volgende moment berekend.
+     */
+    val recurrence: String? = null
 )

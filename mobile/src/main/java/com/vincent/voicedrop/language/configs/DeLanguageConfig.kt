@@ -21,8 +21,15 @@ object DeLanguageConfig : LanguageConfig {
     override val categoryKeywords = mapOf(
         Category.BOODSCHAPPEN  to listOf("einkaufen", "einkauf", "lebensmittel", "supermarkt"),
         Category.IDEEEN        to listOf("idee", "ideen"),
-        Category.TODO          to listOf("aufgabe", "aufgaben", "todo", "to-do"),
-        Category.HERINNERINGEN to listOf("erinnerung", "erinnerungen", "erinnere"),
+        Category.TAKEN to listOf(
+            "aufgabe",
+            "aufgaben",
+            "todo",
+            "to-do",
+            "erinnerung",
+            "erinnerungen",
+            "erinnere"
+        ),
         Category.AGENDA        to listOf("termin", "kalender", "agenda"),
         Category.OVERIG        to emptyList()
     )

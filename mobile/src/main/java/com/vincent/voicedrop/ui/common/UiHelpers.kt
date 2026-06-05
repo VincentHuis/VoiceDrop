@@ -27,9 +27,8 @@ fun PlaceType.displayName(context: Context): String = context.getString(
 fun Category.displayName(context: Context): String = context.getString(
     when (this) {
         Category.BOODSCHAPPEN  -> R.string.category_groceries
-        Category.TODO          -> R.string.category_todo
+        Category.TAKEN -> R.string.category_taken
         Category.IDEEEN        -> R.string.category_ideas
-        Category.HERINNERINGEN -> R.string.category_reminders
         Category.AGENDA        -> R.string.category_agenda
         Category.OVERIG        -> R.string.category_other
     }

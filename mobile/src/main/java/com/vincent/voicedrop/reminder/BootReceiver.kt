@@ -14,8 +14,17 @@ class BootReceiver : BroadcastReceiver() {
         Thread {
             try {
                 val dao = MemoDatabase.get(context).memoDao()
-                dao.upcomingRemindersNow(System.currentTimeMillis()).forEach { memo ->
+                val now = System.currentTimeMillis()
+                dao.upcomingRemindersNow(now).forEach { memo ->
                     ReminderScheduler.schedule(context, memo)
+                }
+                // Herhalende taken die tijdens 'uit' gepasseerd zijn: vooruitrollen en herplannen.
+                dao.recurringPastNow(now).forEach { memo ->
+                    val rule = memo.recurrence ?: return@forEach
+                    val base = memo.remindAt ?: return@forEach
+                    val nextAt = Recurrence.nextAfter(base, rule, now)
+                    dao.setRemindAtNow(memo.id, nextAt)
+                    ReminderScheduler.scheduleAt(context, memo.id, memo.text, nextAt)
                 }
                 GeofenceManager.registerAll(context)
             } finally {

@@ -12,7 +12,7 @@ import com.vincent.voicedrop.R
 
 @Database(
     entities = [Memo::class, Place::class],
-    version = 9,
+    version = 10,
     exportSchema = true,
     autoMigrations = [AutoMigration(from = 8, to = 9)]
 )
@@ -94,6 +94,14 @@ abstract class MemoDatabase : RoomDatabase() {
             }
         }
 
+        // To-do + Herinneringen samengevoegd tot TAKEN; nieuwe recurrence-kolom.
+        private val MIGRATION_9_10 = object : Migration(9, 10) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE memos ADD COLUMN recurrence TEXT")
+                db.execSQL("UPDATE memos SET category = 'TAKEN' WHERE category IN ('TODO', 'HERINNERINGEN')")
+            }
+        }
+
         @Volatile
         private var instance: MemoDatabase? = null
 
@@ -106,7 +114,8 @@ abstract class MemoDatabase : RoomDatabase() {
                 ).addMigrations(
                     MIGRATION_5_6,
                     MIGRATION_6_7,
-                    migration7to8(context.applicationContext)
+                    migration7to8(context.applicationContext),
+                    MIGRATION_9_10
                 ).build().also { instance = it }
             }
     }

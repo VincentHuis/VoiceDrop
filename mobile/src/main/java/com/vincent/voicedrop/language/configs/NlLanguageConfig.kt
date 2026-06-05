@@ -21,8 +21,16 @@ object NlLanguageConfig : LanguageConfig {
     override val categoryKeywords = mapOf(
         Category.BOODSCHAPPEN  to listOf("boodschappen", "boodschap", "winkel", "supermarkt"),
         Category.IDEEEN        to listOf("idee", "ideeen", "ideetje", "ideetjes"),
-        Category.TODO          to listOf("todo", "to do", "to-do", "taak", "taken"),
-        Category.HERINNERINGEN to listOf("herinnering", "herinneringen", "herinner"),
+        Category.TAKEN to listOf(
+            "todo",
+            "to do",
+            "to-do",
+            "taak",
+            "taken",
+            "herinnering",
+            "herinneringen",
+            "herinner"
+        ),
         Category.AGENDA        to listOf("agenda", "afspraak", "kalender"),
         Category.OVERIG        to emptyList()
     )
@@ -84,6 +92,20 @@ object NlLanguageConfig : LanguageConfig {
         quarterOverPattern = Regex("\\bkwart\\s+over\\s+($numAlt|\\d{1,2})\\b"),
         quarterToPattern   = Regex("\\bkwart\\s+voor\\s+($numAlt|\\d{1,2})\\b"),
         hourWordPattern    = Regex("\\b(?:om\\s+)?(\\d{1,2}|$numAlt)\\s*uur\\b"),
-        atHourPattern      = Regex("\\bom\\s+(\\d{1,2}|$numAlt)\\b")
+        atHourPattern = Regex("\\bom\\s+(\\d{1,2}|$numAlt)\\b"),
+        recurringUnits = mapOf(
+            "dag" to "DAY", "dagen" to "DAY",
+            "week" to "WEEK", "weken" to "WEEK",
+            "maand" to "MONTH", "maanden" to "MONTH",
+            "uur" to "HOUR", "uren" to "HOUR",
+            "minuut" to "MIN", "minuten" to "MIN", "min" to "MIN"
+        ),
+        recurringUnitPattern = Regex("\\b(?:elke|iedere|ieder|elk)\\s+(?:(\\d+|$numAlt)\\s+)?(dagen|dag|weken|week|maanden|maand|uren|uur|minuten|minuut|min)\\b"),
+        recurringWeekdayPattern = Regex("\\b(elke|iedere|ieder)\\s+(maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag)\\b"),
+        recurringAdverbs = mapOf(
+            "dagelijks" to "DAY:1",
+            "wekelijks" to "WEEK:1",
+            "maandelijks" to "MONTH:1"
+        )
     )
 }

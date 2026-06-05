@@ -1,6 +1,7 @@
 package com.vincent.voicedrop
 
 import android.content.Context
+import com.vincent.voicedrop.ai.GeminiNano
 import com.vincent.voicedrop.calendar.CalendarHelper
 import com.vincent.voicedrop.data.Category
 import com.vincent.voicedrop.data.CategoryClassifier
@@ -9,7 +10,6 @@ import com.vincent.voicedrop.data.MemoDatabase
 import com.vincent.voicedrop.language.LanguageProvider
 import com.vincent.voicedrop.location.GeofenceManager
 import com.vincent.voicedrop.reminder.PlaceParser
-import com.vincent.voicedrop.reminder.ReminderNotifications
 import com.vincent.voicedrop.reminder.ReminderScheduler
 import com.vincent.voicedrop.reminder.ReminderTimeParser
 import com.vincent.voicedrop.widget.ShoppingWidget
@@ -24,7 +24,15 @@ class MemoProcessor(private val context: Context) {
     suspend fun process(id: String, rawText: String, timestamp: Long) {
         val dao = MemoDatabase.get(context).memoDao()
         val placeDao = MemoDatabase.get(context).placeDao()
-        val classified = classifier.classify(rawText)
+        var classified = classifier.classify(rawText)
+
+        // AI-terugval: alleen als trefwoord-classificatie niets vond én de gebruiker het aan heeft.
+        // Nano krijgt de hele zin; de bestaande tijd-/plek-parsers halen daarna de details eruit.
+        if (classified.category == Category.OVERIG && GeminiNano.isEnabled(prefs)) {
+            GeminiNano.classify(rawText)?.let { aiCategory ->
+                classified = CategoryClassifier.Result(aiCategory, rawText)
+            }
+        }
 
         if (classified.category == Category.AGENDA) {
             handleAgenda(classified.text)
@@ -34,7 +42,8 @@ class MemoProcessor(private val context: Context) {
         var text = classified.text
         var remindAt: Long? = null
         var placeId: String? = null
-        if (classified.category == Category.HERINNERINGEN) {
+        var recurrence: String? = null
+        if (classified.category == Category.TAKEN) {
             val places = placeDao.getAllNow()
             val placeResult = PlaceParser(places).parse(text)
             if (placeResult.place != null) {
@@ -44,20 +53,22 @@ class MemoProcessor(private val context: Context) {
                 val parsed = timeParser.parse(text)
                 text = parsed.text.ifEmpty { text }
                 remindAt = parsed.remindAt
+                recurrence = parsed.recurrence
             }
         }
 
         val memo = Memo(
             id = id, text = text, timestamp = timestamp,
-            category = classified.category.name, remindAt = remindAt, placeId = placeId
+            category = classified.category.name,
+            remindAt = remindAt, placeId = placeId, recurrence = recurrence
         )
         dao.insert(memo)
 
-        if (classified.category == Category.HERINNERINGEN) {
+        if (classified.category == Category.TAKEN) {
             when {
                 placeId != null  -> GeofenceManager.registerAll(context)
                 remindAt != null -> ReminderScheduler.schedule(context, memo)
-                else             -> ReminderNotifications.notifyAddTime(context, memo.id, memo.text)
+                // Geen tijd/plek = gewoon een open taak; die staat in de Taken-lijst.
             }
         }
         ShoppingWidget.refresh(context)
