@@ -107,4 +107,19 @@
     <string name="ai_ready">AI model ready</string>
     <string name="ai_use_fallback">Use the AI model for free</string>
     <string name="ai_error">Error: %s</string>
+
+    <!-- Shopping groups (store sections) -->
+    <string name="group_groente_fruit">Fruit &amp; vegetables</string>
+    <string name="group_zuivel_koeling">Dairy &amp; chilled</string>
+    <string name="group_brood_bakkerij">Bread &amp; bakery</string>
+    <string name="group_vlees_vis">Meat &amp; fish</string>
+    <string name="group_diepvries">Frozen</string>
+    <string name="group_drinken">Drinks</string>
+    <string name="group_houdbaar">Pantry</string>
+    <string name="group_slijterij">Alcohol</string>
+    <string name="group_huishoud_drogist">Household &amp; drugstore</string>
+    <string name="group_overig">Other</string>
+    <string name="group_done">Done</string>
+    <string name="group_order_title">Shopping list order</string>
+    <string name="group_order_subtitle">Drag the groups into your own store order</string>
 </resources>

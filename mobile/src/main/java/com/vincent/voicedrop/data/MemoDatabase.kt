@@ -12,7 +12,7 @@ import com.vincent.voicedrop.R
 
 @Database(
     entities = [Memo::class, Place::class],
-    version = 10,
+    version = 11,
     exportSchema = true,
     autoMigrations = [AutoMigration(from = 8, to = 9)]
 )
@@ -102,6 +102,12 @@ abstract class MemoDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_10_11 = object : Migration(10, 11) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE memos ADD COLUMN shoppingGroup TEXT")
+            }
+        }
+
         @Volatile
         private var instance: MemoDatabase? = null
 
@@ -115,7 +121,8 @@ abstract class MemoDatabase : RoomDatabase() {
                     MIGRATION_5_6,
                     MIGRATION_6_7,
                     migration7to8(context.applicationContext),
-                    MIGRATION_9_10
+                    MIGRATION_9_10,
+                    MIGRATION_10_11
                 ).build().also { instance = it }
             }
     }

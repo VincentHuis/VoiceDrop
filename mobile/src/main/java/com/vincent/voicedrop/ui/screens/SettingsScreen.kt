@@ -2,6 +2,7 @@ package com.vincent.voicedrop.ui.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -30,22 +32,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.google.android.gms.wearable.DataClient
 import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.Wearable
 import com.vincent.voicedrop.R
 import com.vincent.voicedrop.ai.GeminiNano
+import com.vincent.voicedrop.data.ShoppingGroupOrder
 import com.vincent.voicedrop.language.AppLanguage
 import com.vincent.voicedrop.language.LanguagePreference
+import kotlin.math.roundToInt
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -213,6 +222,81 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPlaces: () -> Unit) {
                         )
                     }
                 }
+            }
+
+            Card(modifier = Modifier.fillMaxWidth()) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        stringResource(R.string.group_order_title),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        stringResource(R.string.group_order_subtitle),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    GroupOrderEditor(prefs = prefs)
+                }
+            }
+        }
+    }
+}
+
+/** Sleepbare lijst van winkelgroepen; bij loslaten wordt de nieuwe volgorde opgeslagen. */
+@Composable
+private fun GroupOrderEditor(prefs: android.content.SharedPreferences) {
+    var order by remember { mutableStateOf(ShoppingGroupOrder.get(prefs)) }
+    val rowHeight = 48.dp
+    val rowHeightPx = with(LocalDensity.current) { rowHeight.toPx() }
+    var dragIndex by remember { mutableStateOf<Int?>(null) }
+    var dragOffsetPx by remember { mutableFloatStateOf(0f) }
+
+    Column {
+        order.forEachIndexed { index, group ->
+            val dragging = dragIndex == index
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(rowHeight)
+                    .zIndex(if (dragging) 1f else 0f)
+                    .graphicsLayer { translationY = if (dragging) dragOffsetPx else 0f },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(shoppingGroupTitle(group)),
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.weight(1f)
+                )
+                Icon(
+                    imageVector = Icons.Filled.DragHandle,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.pointerInput(index) {
+                        detectDragGestures(
+                            onDragStart = { dragIndex = index; dragOffsetPx = 0f },
+                            onDragEnd = {
+                                val from = dragIndex
+                                if (from != null) {
+                                    val target = (from + (dragOffsetPx / rowHeightPx).roundToInt())
+                                        .coerceIn(0, order.lastIndex)
+                                    if (target != from) {
+                                        order = order.toMutableList().apply { add(target, removeAt(from)) }
+                                    }
+                                    ShoppingGroupOrder.set(prefs, order)
+                                }
+                                dragIndex = null
+                                dragOffsetPx = 0f
+                            },
+                            onDragCancel = { dragIndex = null; dragOffsetPx = 0f },
+                            onDrag = { change, drag ->
+                                change.consume()
+                                dragOffsetPx += drag.y
+                            }
+                        )
+                    }
+                )
             }
         }
     }

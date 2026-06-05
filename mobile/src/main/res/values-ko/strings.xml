@@ -107,4 +107,19 @@
     <string name="ai_ready">AI 모델 준비 완료</string>
     <string name="ai_use_fallback">AI 모델 무료로 사용</string>
     <string name="ai_error">오류: %s</string>
+
+    <!-- 쇼핑 그룹(매장 구역) -->
+    <string name="group_groente_fruit">채소·과일</string>
+    <string name="group_zuivel_koeling">유제품·냉장</string>
+    <string name="group_brood_bakkerij">빵·베이커리</string>
+    <string name="group_vlees_vis">정육·수산</string>
+    <string name="group_diepvries">냉동</string>
+    <string name="group_drinken">음료</string>
+    <string name="group_houdbaar">실온 식품</string>
+    <string name="group_slijterij">주류</string>
+    <string name="group_huishoud_drogist">생활용품·드러그</string>
+    <string name="group_overig">기타</string>
+    <string name="group_done">완료</string>
+    <string name="group_order_title">쇼핑 목록 순서</string>
+    <string name="group_order_subtitle">매장 동선에 맞게 그룹을 드래그하세요</string>
 </resources>

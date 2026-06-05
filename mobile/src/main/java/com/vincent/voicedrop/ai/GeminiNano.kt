@@ -11,6 +11,7 @@ import com.google.mlkit.genai.prompt.TextPart
 import com.google.mlkit.genai.prompt.generateContentRequest
 import com.vincent.voicedrop.ai.GeminiNano.classify
 import com.vincent.voicedrop.data.Category
+import com.vincent.voicedrop.data.ShoppingGroup
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -157,6 +158,63 @@ object GeminiNano {
             Log.w(TAG, "classify failed — ${detail(t)}", t)
             null
         }
+    }
+
+    /**
+     * Deelt een boodschap in bij een winkelschap via Nano. Geeft `null` als het model niet
+     * beschikbaar is of bij twijfel, zodat de aanroeper het item zonder groep opslaat (-> Overige).
+     */
+    suspend fun groupGrocery(item: String): ShoppingGroup? {
+        if (item.isBlank()) return null
+        return try {
+            val m = model()
+            val fs = m.checkStatus()
+            if (fs != FeatureStatus.AVAILABLE) {
+                Log.d(TAG, "groupGrocery: skipped, featureStatus=$fs")
+                return null
+            }
+            val request = generateContentRequest(TextPart(groupPrompt(item))) {
+                temperature = 0.2f
+                topK = 3
+                maxOutputTokens = 24
+            }
+            val out = m.generateContent(request).candidates.firstOrNull()?.text
+            val group = parseGroup(out)
+            Log.i(TAG, "groupGrocery: '$item' -> raw='$out' -> $group")
+            group
+        } catch (t: Throwable) {
+            Log.w(TAG, "groupGrocery failed — ${detail(t)}", t)
+            null
+        }
+    }
+
+    private fun groupPrompt(item: String): String {
+        val safe = item.replace("\"", "'").take(200)
+        return """
+            You are sorting a single grocery shopping item into the supermarket
+            section where it is found. The item may be in any language.
+            Choose exactly ONE section:
+            GROENTE_FRUIT    = fresh fruit and vegetables
+            ZUIVEL_KOELING   = dairy and refrigerated (milk, butter, yoghurt, cheese, eggs)
+            BROOD_BAKKERIJ   = bread and bakery
+            VLEES_VIS        = fresh meat, poultry and fish
+            DIEPVRIES        = frozen food
+            DRINKEN          = non-alcoholic drinks (water, soda, juice, coffee, tea)
+            HOUDBAAR         = shelf-stable food (rice, pasta, canned goods, sauces, snacks)
+            SLIJTERIJ        = alcoholic drinks (also 0.0% beer/wine)
+            HUISHOUD_DROGIST = non-food: cleaning, toilet paper, toiletries, medicine, pet food
+            OVERIG           = none of the above
+            Reply with ONLY the section word in UPPERCASE, nothing else.
+
+            Item: "$safe"
+            Section:
+        """.trimIndent()
+    }
+
+    /** Pakt de eerste groep-naam die in de modeluitvoer voorkomt; niets herkend -> null. */
+    private fun parseGroup(output: String?): ShoppingGroup? {
+        val upper = output?.uppercase()?.trim() ?: return null
+        return ShoppingGroup.entries.firstOrNull { upper.contains(it.name) }
     }
 
     private fun prompt(note: String): String {
