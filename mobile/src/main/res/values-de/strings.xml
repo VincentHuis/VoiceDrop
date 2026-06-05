@@ -107,4 +107,19 @@
     <string name="ai_ready">KI-Modell bereit</string>
     <string name="ai_use_fallback">KI-Modell kostenlos nutzen</string>
     <string name="ai_error">Fehler: %s</string>
+
+    <!-- Einkaufsgruppen (Ladenbereiche) -->
+    <string name="group_groente_fruit">Obst &amp; Gemüse</string>
+    <string name="group_zuivel_koeling">Milchprodukte &amp; Kühlung</string>
+    <string name="group_brood_bakkerij">Brot &amp; Backwaren</string>
+    <string name="group_vlees_vis">Fleisch &amp; Fisch</string>
+    <string name="group_diepvries">Tiefkühl</string>
+    <string name="group_drinken">Getränke</string>
+    <string name="group_houdbaar">Vorrat</string>
+    <string name="group_slijterij">Alkohol</string>
+    <string name="group_huishoud_drogist">Haushalt &amp; Drogerie</string>
+    <string name="group_overig">Sonstiges</string>
+    <string name="group_done">Erledigt</string>
+    <string name="group_order_title">Reihenfolge der Einkaufsliste</string>
+    <string name="group_order_subtitle">Ziehe die Gruppen in deine eigene Ladenreihenfolge</string>
 </resources>

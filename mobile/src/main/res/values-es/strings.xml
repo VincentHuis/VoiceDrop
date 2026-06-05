@@ -107,4 +107,19 @@
     <string name="ai_ready">Modelo de IA listo</string>
     <string name="ai_use_fallback">Usa el modelo de IA gratis</string>
     <string name="ai_error">Error: %s</string>
+
+    <!-- Grupos de compra (secciones de la tienda) -->
+    <string name="group_groente_fruit">Frutas y verduras</string>
+    <string name="group_zuivel_koeling">Lácteos y refrigerados</string>
+    <string name="group_brood_bakkerij">Pan y panadería</string>
+    <string name="group_vlees_vis">Carne y pescado</string>
+    <string name="group_diepvries">Congelados</string>
+    <string name="group_drinken">Bebidas</string>
+    <string name="group_houdbaar">Despensa</string>
+    <string name="group_slijterij">Alcohol</string>
+    <string name="group_huishoud_drogist">Hogar y droguería</string>
+    <string name="group_overig">Otros</string>
+    <string name="group_done">Completado</string>
+    <string name="group_order_title">Orden de la lista de la compra</string>
+    <string name="group_order_subtitle">Arrastra los grupos según el recorrido de tu tienda</string>
 </resources>

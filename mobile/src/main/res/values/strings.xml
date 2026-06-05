@@ -129,4 +129,19 @@
     <string name="ai_ready">AI-model gereed</string>
     <string name="ai_use_fallback">Gebruik Ai-model gratis</string>
     <string name="ai_error">Fout: %s</string>
+
+    <!-- Boodschappen-groepen (winkelschappen) -->
+    <string name="group_groente_fruit">Groente &amp; fruit</string>
+    <string name="group_zuivel_koeling">Zuivel &amp; koeling</string>
+    <string name="group_brood_bakkerij">Brood &amp; bakkerij</string>
+    <string name="group_vlees_vis">Vlees &amp; vis</string>
+    <string name="group_diepvries">Diepvries</string>
+    <string name="group_drinken">Drinken</string>
+    <string name="group_houdbaar">Houdbaar</string>
+    <string name="group_slijterij">Slijterij</string>
+    <string name="group_huishoud_drogist">Huishoud &amp; drogist</string>
+    <string name="group_overig">Overige</string>
+    <string name="group_done">Afgerond</string>
+    <string name="group_order_title">Volgorde boodschappenlijst</string>
+    <string name="group_order_subtitle">Sleep de groepen in je eigen winkelvolgorde</string>
 </resources>

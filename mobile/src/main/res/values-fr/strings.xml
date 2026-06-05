@@ -107,4 +107,19 @@
     <string name="ai_ready">Modèle d\'IA prêt</string>
     <string name="ai_use_fallback">Utiliser le modèle d\'IA gratuitement</string>
     <string name="ai_error">Erreur : %s</string>
+
+    <!-- Groupes de courses (rayons du magasin) -->
+    <string name="group_groente_fruit">Fruits &amp; légumes</string>
+    <string name="group_zuivel_koeling">Produits laitiers &amp; frais</string>
+    <string name="group_brood_bakkerij">Pain &amp; boulangerie</string>
+    <string name="group_vlees_vis">Viande &amp; poisson</string>
+    <string name="group_diepvries">Surgelés</string>
+    <string name="group_drinken">Boissons</string>
+    <string name="group_houdbaar">Épicerie</string>
+    <string name="group_slijterij">Alcool</string>
+    <string name="group_huishoud_drogist">Maison &amp; droguerie</string>
+    <string name="group_overig">Autres</string>
+    <string name="group_done">Terminé</string>
+    <string name="group_order_title">Ordre de la liste de courses</string>
+    <string name="group_order_subtitle">Glissez les groupes selon le parcours de votre magasin</string>
 </resources>

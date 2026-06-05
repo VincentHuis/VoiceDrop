@@ -107,4 +107,19 @@
     <string name="ai_ready">AI モデルの準備完了</string>
     <string name="ai_use_fallback">AI モデルを無料で使う</string>
     <string name="ai_error">エラー: %s</string>
+
+    <!-- 買い物グループ（売り場） -->
+    <string name="group_groente_fruit">野菜・果物</string>
+    <string name="group_zuivel_koeling">乳製品・冷蔵</string>
+    <string name="group_brood_bakkerij">パン・ベーカリー</string>
+    <string name="group_vlees_vis">肉・魚</string>
+    <string name="group_diepvries">冷凍</string>
+    <string name="group_drinken">飲み物</string>
+    <string name="group_houdbaar">常温食品</string>
+    <string name="group_slijterij">お酒</string>
+    <string name="group_huishoud_drogist">日用品・ドラッグ</string>
+    <string name="group_overig">その他</string>
+    <string name="group_done">完了</string>
+    <string name="group_order_title">買い物リストの順序</string>
+    <string name="group_order_subtitle">お店の順路に合わせてグループをドラッグ</string>
 </resources>
