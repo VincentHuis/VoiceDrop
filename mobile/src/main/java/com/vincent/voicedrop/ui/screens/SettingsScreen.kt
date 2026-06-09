@@ -3,6 +3,8 @@ package com.vincent.voicedrop.ui.screens
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -88,6 +90,7 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPlaces: () -> Unit) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
+                .verticalScroll(rememberScrollState())
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
@@ -147,6 +150,8 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPlaces: () -> Unit) {
                 }
             }
 
+            // AI-kaart alleen tonen als Gemini Nano op dit toestel ondersteund wordt.
+            if (aiStatus != GeminiNano.Status.Unsupported) {
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
@@ -161,10 +166,7 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPlaces: () -> Unit) {
                     )
                     Spacer(modifier = Modifier.height(12.dp))
                     when (val s = aiStatus) {
-                        GeminiNano.Status.Unsupported -> Text(
-                            stringResource(R.string.ai_unsupported),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                        GeminiNano.Status.Unsupported -> Unit
 
                         GeminiNano.Status.NotReady -> Column {
                             Text(stringResource(R.string.ai_downloadable))
@@ -222,6 +224,7 @@ fun SettingsScreen(onBack: () -> Unit, onOpenPlaces: () -> Unit) {
                         )
                     }
                 }
+            }
             }
 
             Card(modifier = Modifier.fillMaxWidth()) {
